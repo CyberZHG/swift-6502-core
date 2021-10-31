@@ -1,0 +1,22 @@
+name: Swift
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: fwal/setup-swift@d43a564349d1341cd990cfbd70d94d63b8899475
+      with:
+        swift-version: "5.3.3"
+    - name: Build
+      run: (cd CPU6502Core && swift build)
+    - name: Run tests
+      run: (cd CPU6502Core && swift test)
