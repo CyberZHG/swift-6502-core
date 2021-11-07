@@ -152,8 +152,7 @@ public class CPU6502 {
     internal func loadAddrZeroPage(_ memory: Memory, cycle: inout Int) -> UInt8 {
         let zeroPageAddr = readByte(memory, address: PC, cycle: &cycle)
         PC += 1
-        let addr = readByte(memory, address: UInt16(zeroPageAddr), cycle: &cycle)
-        return addr
+        return readByte(memory, address: UInt16(zeroPageAddr), cycle: &cycle)
     }
     
     /// Get the address from zero page indexed by X. The zero page address should modulo 0x100 after indexing.
@@ -162,8 +161,36 @@ public class CPU6502 {
         PC += 1
         let indexedAddr = (UInt16(zeroPageAddr) + UInt16(X)) % 0x100
         cycle += 1
-        let addr = readByte(memory, address: indexedAddr, cycle: &cycle)
-        return addr
+        return readByte(memory, address: indexedAddr, cycle: &cycle)
+    }
+    
+    /// Get the address from a 2-byte absolute address.
+    internal func loadAddrAbsolute(_ memory: Memory, cycle: inout Int) -> UInt8 {
+        let absAddr = readWord(memory, address: PC, cycle: &cycle)
+        PC += 2
+        return readByte(memory, address: absAddr, cycle: &cycle)
+    }
+    
+    /// Get the address from a 2-byte absolute address indexed by X. One extra cycle is required when a page boundary is crossed.
+    internal func loadAddrAbsoluteX(_ memory: Memory, cycle: inout Int) -> UInt8 {
+        let absAddr = readWord(memory, address: PC, cycle: &cycle)
+        PC += 2
+        let indexedAddr = absAddr + UInt16(X)
+        if (absAddr >> 8) != (indexedAddr >> 8) {
+            cycle += 1
+        }
+        return readByte(memory, address: indexedAddr, cycle: &cycle)
+    }
+    
+    /// Get the address from a 2-byte absolute address indexed by Y. One extra cycle is required when a page boundary is crossed.
+    internal func loadAddrAbsoluteY(_ memory: Memory, cycle: inout Int) -> UInt8 {
+        let absAddr = readWord(memory, address: PC, cycle: &cycle)
+        PC += 2
+        let indexedAddr = absAddr + UInt16(Y)
+        if (absAddr >> 8) != (indexedAddr >> 8) {
+            cycle += 1
+        }
+        return readByte(memory, address: indexedAddr, cycle: &cycle)
     }
     
     /// Update status based on A. A only affects zero and negative flags.

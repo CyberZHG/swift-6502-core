@@ -78,4 +78,74 @@ final class OpLDATests: XCTestCase {
         XCTAssertEqual(self.cpu.P, 0b10100000)
     }
     
+    func testLDAAbsolute() throws {
+        self.memory.setBytes(start: 0x0000, bytes: [0xAD, 0xCD, 0xAB])
+        self.memory.setBytes(start: 0xABCD, bytes: [0xFE])
+        self.cpu.PC = 0x0000
+        self.cpu.X = 0
+        let actualCycle = self.cpu.execute(memory, maxCycle: 4)
+        XCTAssertEqual(actualCycle, 4)
+        XCTAssertEqual(self.cpu.PC, 0x0003)
+        XCTAssertEqual(self.cpu.A, 0xFE)
+        XCTAssertEqual(self.cpu.P, 0b10100000)
+    }
+    
+    func testLDAAbsoluteX() throws {
+        self.memory.setBytes(start: 0x0000, bytes: [0xBD, 0xCD, 0xAB])
+        self.memory.setBytes(start: 0xABCD, bytes: [0xFE, 0xFC])
+        self.memory.setBytes(start: 0xAC2D, bytes: [0xFA])
+        self.cpu.PC = 0x0000
+        self.cpu.X = 0
+        var actualCycle = self.cpu.execute(memory, maxCycle: 4)
+        XCTAssertEqual(actualCycle, 4)
+        XCTAssertEqual(self.cpu.PC, 0x0003)
+        XCTAssertEqual(self.cpu.A, 0xFE)
+        XCTAssertEqual(self.cpu.P, 0b10100000)
+        
+        self.cpu.PC = 0x0000
+        self.cpu.X = 1
+        actualCycle = self.cpu.execute(memory, maxCycle: 4)
+        XCTAssertEqual(actualCycle, 4)
+        XCTAssertEqual(self.cpu.PC, 0x0003)
+        XCTAssertEqual(self.cpu.A, 0xFC)
+        XCTAssertEqual(self.cpu.P, 0b10100000)
+        
+        self.cpu.PC = 0x0000
+        self.cpu.X = 0x60
+        actualCycle = self.cpu.execute(memory, maxCycle: 5)
+        XCTAssertEqual(actualCycle, 5)
+        XCTAssertEqual(self.cpu.PC, 0x0003)
+        XCTAssertEqual(self.cpu.A, 0xFA)
+        XCTAssertEqual(self.cpu.P, 0b10100000)
+    }
+    
+    func testLDAAbsoluteY() throws {
+        self.memory.setBytes(start: 0x0000, bytes: [0xB9, 0xCD, 0xAB])
+        self.memory.setBytes(start: 0xABCD, bytes: [0xFE, 0xFC])
+        self.memory.setBytes(start: 0xAC2D, bytes: [0xFA])
+        self.cpu.PC = 0x0000
+        self.cpu.Y = 0
+        var actualCycle = self.cpu.execute(memory, maxCycle: 4)
+        XCTAssertEqual(actualCycle, 4)
+        XCTAssertEqual(self.cpu.PC, 0x0003)
+        XCTAssertEqual(self.cpu.A, 0xFE)
+        XCTAssertEqual(self.cpu.P, 0b10100000)
+        
+        self.cpu.PC = 0x0000
+        self.cpu.Y = 1
+        actualCycle = self.cpu.execute(memory, maxCycle: 4)
+        XCTAssertEqual(actualCycle, 4)
+        XCTAssertEqual(self.cpu.PC, 0x0003)
+        XCTAssertEqual(self.cpu.A, 0xFC)
+        XCTAssertEqual(self.cpu.P, 0b10100000)
+        
+        self.cpu.PC = 0x0000
+        self.cpu.Y = 0x60
+        actualCycle = self.cpu.execute(memory, maxCycle: 5)
+        XCTAssertEqual(actualCycle, 5)
+        XCTAssertEqual(self.cpu.PC, 0x0003)
+        XCTAssertEqual(self.cpu.A, 0xFA)
+        XCTAssertEqual(self.cpu.P, 0b10100000)
+    }
+    
 }

@@ -12,6 +12,15 @@ extension CPU6502 {
         case AddressingMode.ZERO_PAGE_X:
             val = loadAddrZeroPageX(memory, cycle: &cycle)
             break
+        case AddressingMode.ABSOLUTE:
+            val = loadAddrAbsolute(memory, cycle: &cycle)
+            break
+        case AddressingMode.ABSOLUTE_X:
+            val = loadAddrAbsoluteX(memory, cycle: &cycle)
+            break
+        case AddressingMode.ABSOLUTE_Y:
+            val = loadAddrAbsoluteY(memory, cycle: &cycle)
+            break
         default:
             break
         }
