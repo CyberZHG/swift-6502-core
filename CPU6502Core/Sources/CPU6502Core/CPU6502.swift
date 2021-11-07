@@ -102,6 +102,12 @@ public class CPU6502 {
             case Operation.LDA:
                 try execLDA(memory, code: code, cycle: &cycle)
                 break
+            case Operation.LDX:
+                try execLDX(memory, code: code, cycle: &cycle)
+                break
+            case Operation.LDY:
+                try execLDY(memory, code: code, cycle: &cycle)
+                break
             default:
                 break
             }
@@ -167,6 +173,15 @@ public class CPU6502 {
         return readByte(memory, address: indexedAddr, cycle: &cycle)
     }
     
+    /// Get the address from zero page indexed by Y. The zero page address should modulo 0x100 after indexing.
+    internal func loadAddrZeroPageY(_ memory: Memory, cycle: inout Int) -> UInt8 {
+        let zeroPageAddr = readByte(memory, address: PC, cycle: &cycle)
+        PC += 1
+        let indexedAddr = (UInt16(zeroPageAddr) + UInt16(Y)) % 0x100
+        cycle += 1
+        return readByte(memory, address: indexedAddr, cycle: &cycle)
+    }
+    
     /// Get the address from a 2-byte absolute address.
     internal func loadAddrAbsolute(_ memory: Memory, cycle: inout Int) -> UInt8 {
         let absAddr = readWord(memory, address: PC, cycle: &cycle)
@@ -219,8 +234,8 @@ public class CPU6502 {
     }
     
     /// Update status based on A. A only affects zero and negative flags.
-    internal func updateStatusFromA() {
-        self.Z = A == 0
-        self.N = (A & 0b10000000) > 0
+    internal func updateStatusFromConst(_ val: UInt8) {
+        self.Z = val == 0
+        self.N = (val & 0b10000000) > 0
     }
 }
