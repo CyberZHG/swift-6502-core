@@ -94,21 +94,21 @@ public class CPU6502 {
         while cycle < maxCycle {
             let code = readByte(memory, address: PC, cycle: &cycle)
             PC += 1
-            let opCode = getOpCode(code)
-            guard let op = CODE_TO_OPERATION[opCode] else {
+            guard let (op, addrMode) = CODE_TO_OPERATION[code] else {
                 throw EmulateError.invalidOpCode
             }
             switch op {
+            case Operation.JMP:
+                try execJMP(memory, addrMode: addrMode, cycle: &cycle)
+                break
             case Operation.LDA:
-                try execLDA(memory, code: code, cycle: &cycle)
+                try execLDA(memory, addrMode: addrMode, cycle: &cycle)
                 break
             case Operation.LDX:
-                try execLDX(memory, code: code, cycle: &cycle)
+                try execLDX(memory, addrMode: addrMode, cycle: &cycle)
                 break
             case Operation.LDY:
-                try execLDY(memory, code: code, cycle: &cycle)
-                break
-            default:
+                try execLDY(memory, addrMode: addrMode, cycle: &cycle)
                 break
             }
         }
