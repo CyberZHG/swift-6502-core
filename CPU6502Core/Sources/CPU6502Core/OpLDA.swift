@@ -1,25 +1,34 @@
 extension CPU6502 {
-    func execLDA(_ memory: Memory, code: UInt8, cycle: inout Int) {
+    func execLDA(_ memory: Memory, code: UInt8, cycle: inout Int) throws {
         let addrCode = getAddrCode(code)
         var val : UInt8 = 0
-        switch CODE_TO_ADDRESSING_01[addrCode]! {
-        case AddressingMode.IMMEDIATE:
+        guard let addrMode = CODE_TO_ADDRESSING_01[addrCode] else {
+            throw EmulateError.invalidAddrMode
+        }
+        switch addrMode {
+        case .IMMEDIATE:
             val = loadAddrImmedidate(memory, cycle: &cycle)
             break
-        case AddressingMode.ZERO_PAGE:
+        case .ZERO_PAGE:
             val = loadAddrZeroPage(memory, cycle: &cycle)
             break
-        case AddressingMode.ZERO_PAGE_X:
+        case .ZERO_PAGE_X:
             val = loadAddrZeroPageX(memory, cycle: &cycle)
             break
-        case AddressingMode.ABSOLUTE:
+        case .ABSOLUTE:
             val = loadAddrAbsolute(memory, cycle: &cycle)
             break
-        case AddressingMode.ABSOLUTE_X:
+        case .ABSOLUTE_X:
             val = loadAddrAbsoluteX(memory, cycle: &cycle)
             break
-        case AddressingMode.ABSOLUTE_Y:
+        case .ABSOLUTE_Y:
             val = loadAddrAbsoluteY(memory, cycle: &cycle)
+            break
+        case .INDEXED_INDIRECT:
+            val = loadAddrIndexedIndirect(memory, cycle: &cycle)
+            break
+        case .INDIRECT_INDEXED:
+            val = loadAddrIndirectIndexed(memory, cycle: &cycle)
             break
         default:
             break

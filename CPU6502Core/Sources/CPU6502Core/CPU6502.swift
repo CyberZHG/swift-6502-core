@@ -89,15 +89,18 @@ public class CPU6502 {
         */
     func execute(_ memory: Memory,
                  entry: UInt16 = PC_RESET_VAL,
-                 maxCycle: Int = -1) -> Int {
+                 maxCycle: Int = -1) throws -> Int {
         var cycle = 0
         while cycle < maxCycle {
             let code = readByte(memory, address: PC, cycle: &cycle)
             PC += 1
             let opCode = getOpCode(code)
-            switch CODE_TO_OPERATION[opCode]! {
+            guard let op = CODE_TO_OPERATION[opCode] else {
+                throw EmulateError.invalidOpCode
+            }
+            switch op {
             case Operation.LDA:
-                execLDA(memory, code: code, cycle: &cycle)
+                try execLDA(memory, code: code, cycle: &cycle)
                 break
             default:
                 break
@@ -188,6 +191,28 @@ public class CPU6502 {
         PC += 2
         let indexedAddr = absAddr + UInt16(Y)
         if (absAddr >> 8) != (indexedAddr >> 8) {
+            cycle += 1
+        }
+        return readByte(memory, address: indexedAddr, cycle: &cycle)
+    }
+    
+    /// Get the address based on the indexed indirect addressing.
+    internal func loadAddrIndexedIndirect(_ memory: Memory, cycle: inout Int) -> UInt8 {
+        let zeroPageAddr = readByte(memory, address: PC, cycle: &cycle)
+        PC += 1
+        let indexedAddr = (UInt16(zeroPageAddr) + UInt16(X)) % 0x100
+        let indirectAddr = readWord(memory, address: indexedAddr, cycle: &cycle)
+        cycle += 1
+        return readByte(memory, address: indirectAddr, cycle: &cycle)
+    }
+    
+    /// Get the address based on the indirect indexed addressing.
+    internal func loadAddrIndirectIndexed(_ memory: Memory, cycle: inout Int) -> UInt8 {
+        let zeroPageAddr = readByte(memory, address: PC, cycle: &cycle)
+        PC += 1
+        let indirectAddr = readWord(memory, address: UInt16(zeroPageAddr), cycle: &cycle)
+        let indexedAddr = indirectAddr + UInt16(Y)
+        if (indirectAddr >> 8) != (indexedAddr >> 8) {
             cycle += 1
         }
         return readByte(memory, address: indexedAddr, cycle: &cycle)

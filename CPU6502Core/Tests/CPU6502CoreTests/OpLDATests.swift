@@ -14,7 +14,7 @@ final class OpLDATests: XCTestCase {
     func testLDAImmediate() throws {
         self.memory.setBytes(start: 0x0080, bytes: [0xA9, 0x0A])
         self.cpu.PC = 0x0080
-        var actualCycle = self.cpu.execute(memory, maxCycle: 2)
+        var actualCycle = try self.cpu.execute(memory, maxCycle: 2)
         XCTAssertEqual(actualCycle, 2)
         XCTAssertEqual(self.cpu.PC, 0x0082)
         XCTAssertEqual(self.cpu.A, 0x0A)
@@ -22,7 +22,7 @@ final class OpLDATests: XCTestCase {
         
         self.memory.setBytes(start: 0x0080, bytes: [0xA9, 0x00])
         self.cpu.PC = 0x0080
-        actualCycle = self.cpu.execute(memory, maxCycle: 2)
+        actualCycle = try self.cpu.execute(memory, maxCycle: 2)
         XCTAssertEqual(actualCycle, 2)
         XCTAssertEqual(self.cpu.PC, 0x0082)
         XCTAssertEqual(self.cpu.A, 0x00)
@@ -31,7 +31,7 @@ final class OpLDATests: XCTestCase {
         
         self.memory.setBytes(start: 0x0080, bytes: [0xA9, 0xFF])
         self.cpu.PC = 0x0080
-        actualCycle = self.cpu.execute(memory, maxCycle: 2)
+        actualCycle = try self.cpu.execute(memory, maxCycle: 2)
         XCTAssertEqual(actualCycle, 2)
         XCTAssertEqual(self.cpu.PC, 0x0082)
         XCTAssertEqual(self.cpu.A, 0xFF)
@@ -42,7 +42,7 @@ final class OpLDATests: XCTestCase {
     func testLDAZeroPage() throws {
         self.memory.setBytes(start: 0x0000, bytes: [0xA5, 0x00])
         self.cpu.PC = 0x0000
-        let actualCycle = self.cpu.execute(memory, maxCycle: 3)
+        let actualCycle = try self.cpu.execute(memory, maxCycle: 3)
         XCTAssertEqual(actualCycle, 3)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.A, 0xA5)
@@ -54,7 +54,7 @@ final class OpLDATests: XCTestCase {
         self.memory.setBytes(start: 0x0010, bytes: [0xAB, 0xCD])
         self.cpu.PC = 0x0000
         self.cpu.X = 0
-        var actualCycle = self.cpu.execute(memory, maxCycle: 4)
+        var actualCycle = try self.cpu.execute(memory, maxCycle: 4)
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.A, 0xAB)
@@ -62,7 +62,7 @@ final class OpLDATests: XCTestCase {
         
         self.cpu.PC = 0x0000
         self.cpu.X = 1
-        actualCycle = self.cpu.execute(memory, maxCycle: 4)
+        actualCycle = try self.cpu.execute(memory, maxCycle: 4)
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.A, 0xCD)
@@ -71,7 +71,7 @@ final class OpLDATests: XCTestCase {
         self.memory.setBytes(start: 0x0000, bytes: [0xB5, 0xFF])
         self.cpu.PC = 0x0000
         self.cpu.X = 0x11
-        actualCycle = self.cpu.execute(memory, maxCycle: 4)
+        actualCycle = try self.cpu.execute(memory, maxCycle: 4)
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.A, 0xAB)
@@ -83,7 +83,7 @@ final class OpLDATests: XCTestCase {
         self.memory.setBytes(start: 0xABCD, bytes: [0xFE])
         self.cpu.PC = 0x0000
         self.cpu.X = 0
-        let actualCycle = self.cpu.execute(memory, maxCycle: 4)
+        let actualCycle = try self.cpu.execute(memory, maxCycle: 4)
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.A, 0xFE)
@@ -96,7 +96,7 @@ final class OpLDATests: XCTestCase {
         self.memory.setBytes(start: 0xAC2D, bytes: [0xFA])
         self.cpu.PC = 0x0000
         self.cpu.X = 0
-        var actualCycle = self.cpu.execute(memory, maxCycle: 4)
+        var actualCycle = try self.cpu.execute(memory, maxCycle: 4)
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.A, 0xFE)
@@ -104,7 +104,7 @@ final class OpLDATests: XCTestCase {
         
         self.cpu.PC = 0x0000
         self.cpu.X = 1
-        actualCycle = self.cpu.execute(memory, maxCycle: 4)
+        actualCycle = try self.cpu.execute(memory, maxCycle: 4)
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.A, 0xFC)
@@ -112,7 +112,7 @@ final class OpLDATests: XCTestCase {
         
         self.cpu.PC = 0x0000
         self.cpu.X = 0x60
-        actualCycle = self.cpu.execute(memory, maxCycle: 5)
+        actualCycle = try self.cpu.execute(memory, maxCycle: 5)
         XCTAssertEqual(actualCycle, 5)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.A, 0xFA)
@@ -125,7 +125,7 @@ final class OpLDATests: XCTestCase {
         self.memory.setBytes(start: 0xAC2D, bytes: [0xFA])
         self.cpu.PC = 0x0000
         self.cpu.Y = 0
-        var actualCycle = self.cpu.execute(memory, maxCycle: 4)
+        var actualCycle = try self.cpu.execute(memory, maxCycle: 4)
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.A, 0xFE)
@@ -133,7 +133,7 @@ final class OpLDATests: XCTestCase {
         
         self.cpu.PC = 0x0000
         self.cpu.Y = 1
-        actualCycle = self.cpu.execute(memory, maxCycle: 4)
+        actualCycle = try self.cpu.execute(memory, maxCycle: 4)
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.A, 0xFC)
@@ -141,11 +141,46 @@ final class OpLDATests: XCTestCase {
         
         self.cpu.PC = 0x0000
         self.cpu.Y = 0x60
-        actualCycle = self.cpu.execute(memory, maxCycle: 5)
+        actualCycle = try self.cpu.execute(memory, maxCycle: 5)
         XCTAssertEqual(actualCycle, 5)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.A, 0xFA)
         XCTAssertEqual(self.cpu.P, 0b10100000)
+    }
+    
+    func testLDAIndexedIndirect() throws {
+        self.memory.setBytes(start: 0x0000, bytes: [0xA1, 0x40])
+        self.memory.setBytes(start: 0x0041, bytes: [0xCD, 0xAB])
+        self.memory.setBytes(start: 0xABCD, bytes: [0x42])
+        self.cpu.PC = 0x0000
+        self.cpu.X = 1
+        let actualCycle = try self.cpu.execute(memory, maxCycle: 6)
+        XCTAssertEqual(actualCycle, 6)
+        XCTAssertEqual(self.cpu.PC, 0x0002)
+        XCTAssertEqual(self.cpu.A, 0x42)
+        XCTAssertEqual(self.cpu.P, 0b00100000)
+    }
+    
+    func testLDAIndirectIndexed() throws {
+        self.memory.setBytes(start: 0x0000, bytes: [0xB1, 0x40])
+        self.memory.setBytes(start: 0x0040, bytes: [0xCD, 0xAB])
+        self.memory.setBytes(start: 0xABCD, bytes: [0x42, 0x43])
+        self.memory.setBytes(start: 0xACBD, bytes: [0x44])
+        self.cpu.PC = 0x0000
+        self.cpu.Y = 1
+        var actualCycle = try self.cpu.execute(memory, maxCycle: 5)
+        XCTAssertEqual(actualCycle, 5)
+        XCTAssertEqual(self.cpu.PC, 0x0002)
+        XCTAssertEqual(self.cpu.A, 0x43)
+        XCTAssertEqual(self.cpu.P, 0b00100000)
+        
+        self.cpu.PC = 0x0000
+        self.cpu.Y = 0xF0
+        actualCycle = try self.cpu.execute(memory, maxCycle: 6)
+        XCTAssertEqual(actualCycle, 6)
+        XCTAssertEqual(self.cpu.PC, 0x0002)
+        XCTAssertEqual(self.cpu.A, 0x44)
+        XCTAssertEqual(self.cpu.P, 0b00100000)
     }
     
 }
