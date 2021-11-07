@@ -148,6 +148,25 @@ public class CPU6502 {
         return addr
     }
     
+    /// Get the address from zero page.
+    internal func loadAddrZeroPage(_ memory: Memory, cycle: inout Int) -> UInt8 {
+        let zeroPageAddr = readByte(memory, address: PC, cycle: &cycle)
+        PC += 1
+        let addr = readByte(memory, address: UInt16(zeroPageAddr), cycle: &cycle)
+        return addr
+    }
+    
+    /// Get the address from zero page indexed by X. The zero page address should modulo 0x100 after indexing.
+    internal func loadAddrZeroPageX(_ memory: Memory, cycle: inout Int) -> UInt8 {
+        let zeroPageAddr = readByte(memory, address: PC, cycle: &cycle)
+        PC += 1
+        let indexedAddr = (UInt16(zeroPageAddr) + UInt16(X)) % 0x100
+        cycle += 1
+        let addr = readByte(memory, address: indexedAddr, cycle: &cycle)
+        return addr
+    }
+    
+    /// Update status based on A. A only affects zero and negative flags.
     internal func updateStatusFromA() {
         self.Z = A == 0
         self.N = (A & 0b10000000) > 0
