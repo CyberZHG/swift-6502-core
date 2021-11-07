@@ -1,5 +1,16 @@
 let PC_RESET_VAL: UInt16 = 0xFFFC
 
+enum EmulateError: Error {
+    case invalidOpCode
+    case invalidAddrMode
+}
+
+
+enum EmulateFlag {
+    /// The orignal 6502 does not deal with the page boundary correctly when using the indirect addressing.
+    case useOriginalIncorrectIndirectJMP
+}
+
 /**
  The class contains all the 6502 states.
  */
@@ -17,6 +28,9 @@ public class CPU6502 {
     var X : UInt8 = 0
     /// Y index register.
     var Y : UInt8 = 0
+    
+    /// Flags for emulation.
+    var flags: Set<EmulateFlag> = []
     
     /// Negative flag. The flag will be set after any arithmetic operations.
     var N: Bool {
@@ -52,6 +66,18 @@ public class CPU6502 {
     var C: Bool {
         get { return getPBit(0) }
         set(flag) { setPBit(0, flag)}
+    }
+    
+    func addFlag(_ flag: EmulateFlag) {
+        flags.insert(flag)
+    }
+    
+    func removeFlag(_ flag: EmulateFlag) {
+        flags.remove(flag)
+    }
+    
+    func removeAllFlag() {
+        flags.removeAll()
     }
 
     /// Get 1 bit from the processor unit.

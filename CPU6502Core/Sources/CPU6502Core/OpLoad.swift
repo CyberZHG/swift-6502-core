@@ -2,28 +2,28 @@ extension CPU6502 {
     func execLDA(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
         var val : UInt8 = 0
         switch addrMode {
-        case .IMMEDIATE:
+        case .immediate:
             val = loadAddrImmedidate(memory, cycle: &cycle)
             break
-        case .ZERO_PAGE:
+        case .zeroPage:
             val = loadAddrZeroPage(memory, cycle: &cycle)
             break
-        case .ZERO_PAGE_X:
+        case .zeroPageX:
             val = loadAddrZeroPageX(memory, cycle: &cycle)
             break
-        case .ABSOLUTE:
+        case .absolute:
             val = loadAddrAbsolute(memory, cycle: &cycle)
             break
-        case .ABSOLUTE_X:
+        case .absoluteX:
             val = loadAddrAbsoluteX(memory, cycle: &cycle)
             break
-        case .ABSOLUTE_Y:
+        case .absoluteY:
             val = loadAddrAbsoluteY(memory, cycle: &cycle)
             break
-        case .INDEXED_INDIRECT:
+        case .indexedIndirect:
             val = loadAddrIndexedIndirect(memory, cycle: &cycle)
             break
-        case .INDIRECT_INDEXED:
+        case .indirectIndexed:
             val = loadAddrIndirectIndexed(memory, cycle: &cycle)
             break
         default:
@@ -36,19 +36,19 @@ extension CPU6502 {
     func execLDX(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
         var val : UInt8 = 0
         switch addrMode {
-        case .IMMEDIATE:
+        case .immediate:
             val = loadAddrImmedidate(memory, cycle: &cycle)
             break
-        case .ZERO_PAGE:
+        case .zeroPage:
             val = loadAddrZeroPage(memory, cycle: &cycle)
             break
-        case .ZERO_PAGE_Y:
+        case .zeroPageY:
             val = loadAddrZeroPageY(memory, cycle: &cycle)
             break
-        case .ABSOLUTE:
+        case .absolute:
             val = loadAddrAbsolute(memory, cycle: &cycle)
             break
-        case .ABSOLUTE_Y:
+        case .absoluteY:
             val = loadAddrAbsoluteY(memory, cycle: &cycle)
             break
         default:
@@ -61,19 +61,19 @@ extension CPU6502 {
     func execLDY(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
         var val : UInt8 = 0
         switch addrMode {
-        case .IMMEDIATE:
+        case .immediate:
             val = loadAddrImmedidate(memory, cycle: &cycle)
             break
-        case .ZERO_PAGE:
+        case .zeroPage:
             val = loadAddrZeroPage(memory, cycle: &cycle)
             break
-        case .ZERO_PAGE_X:
+        case .zeroPageX:
             val = loadAddrZeroPageX(memory, cycle: &cycle)
             break
-        case .ABSOLUTE:
+        case .absolute:
             val = loadAddrAbsolute(memory, cycle: &cycle)
             break
-        case .ABSOLUTE_X:
+        case .absoluteX:
             val = loadAddrAbsoluteX(memory, cycle: &cycle)
             break
         default:
