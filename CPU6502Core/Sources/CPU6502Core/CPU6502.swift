@@ -168,6 +168,12 @@ public class CPU6502 {
             case Operation.TYA:
                 try execTYA(memory, addrMode: addrMode, cycle: &cycle)
                 break
+            case Operation.TXS:
+                try execTXS(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.TSX:
+                try execTSX(memory, addrMode: addrMode, cycle: &cycle)
+                break
             }
         }
         return cycle
@@ -198,14 +204,27 @@ public class CPU6502 {
         memory[Int(address) + 1] = UInt8(value >> 8)
     }
     
-    /// Push an address to the stack.
-    internal func pushStack(_ memory: Memory, address: UInt16, cycle: inout Int) {
-        writeWord(memory, address: (0x0100 | UInt16(SP)) - 1, value: address, cycle: &cycle)
+    /// Push a byte to the stack.
+    internal func pushByte(_ memory: Memory, value: UInt8, cycle: inout Int) {
+        writeByte(memory, address: (0x0100 | UInt16(SP)), value: value, cycle: &cycle)
+        SP = SP &- 1
+    }
+    
+    /// Pop a byte from the stack.
+    internal func popByte(_ memory: Memory, cycle: inout Int) -> UInt8 {
+        SP = SP &+ 1
+        let addr = readByte(memory, address: (0x0100 | UInt16(SP)), cycle: &cycle)
+        return addr
+    }
+    
+    /// Push a word to the stack.
+    internal func pushWord(_ memory: Memory, value: UInt16, cycle: inout Int) {
+        writeWord(memory, address: (0x0100 | UInt16(SP)) - 1, value: value, cycle: &cycle)
         SP = SP &- 2
     }
     
-    /// Pop an address from the stack.
-    internal func popStack(_ memory: Memory, cycle: inout Int) -> UInt16 {
+    /// Pop a word from the stack.
+    internal func popWord(_ memory: Memory, cycle: inout Int) -> UInt16 {
         SP = SP &+ 2
         let addr = readWord(memory, address: (0x0100 | UInt16(SP)) - 1, cycle: &cycle)
         return addr
