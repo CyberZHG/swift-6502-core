@@ -126,11 +126,17 @@ public class CPU6502 {
                 throw EmulateError.invalidOpCode
             }
             switch op {
+            case Operation.NOP:
+                try execNOP(memory, addrMode: addrMode, cycle: &cycle)
+                break
             case Operation.JMP:
                 try execJMP(memory, addrMode: addrMode, cycle: &cycle)
                 break
             case Operation.JSR:
                 try execJSR(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.RTS:
+                try execRTS(memory, addrMode: addrMode, cycle: &cycle)
                 break
             case Operation.LDA:
                 try execLDA(memory, addrMode: addrMode, cycle: &cycle)
@@ -141,12 +147,6 @@ public class CPU6502 {
             case Operation.LDY:
                 try execLDY(memory, addrMode: addrMode, cycle: &cycle)
                 break
-            case Operation.NOP:
-                try execNOP(memory, addrMode: addrMode, cycle: &cycle)
-                break
-            case Operation.RTS:
-                try execRTS(memory, addrMode: addrMode, cycle: &cycle)
-                break
             case Operation.STA:
                 try execSTA(memory, addrMode: addrMode, cycle: &cycle)
                 break
@@ -155,6 +155,18 @@ public class CPU6502 {
                 break
             case Operation.STY:
                 try execSTY(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.TAX:
+                try execTAX(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.TXA:
+                try execTXA(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.TAY:
+                try execTAY(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.TYA:
+                try execTYA(memory, addrMode: addrMode, cycle: &cycle)
                 break
             }
         }
