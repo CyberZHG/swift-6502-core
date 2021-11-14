@@ -136,6 +136,9 @@ public class CPU6502 {
             case Operation.LDY:
                 try execLDY(memory, addrMode: addrMode, cycle: &cycle)
                 break
+            case Operation.NOP:
+                try execNOP(memory, addrMode: addrMode, cycle: &cycle)
+                break
             }
         }
         return cycle
