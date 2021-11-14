@@ -1,4 +1,5 @@
 let PC_RESET_VAL: UInt16 = 0xFFFC
+let SP_RESET_VAL: UInt8 = 0xFF
 
 enum EmulateError: Error {
     case invalidOpCode
@@ -19,7 +20,7 @@ public class CPU6502 {
     /// Program counter. This register points to the address of the next instruction to be executed.
     var PC : UInt16 = PC_RESET_VAL
     /// Stack pointer. This contains the offset to the stack page (`$0100` - `$01FF`).
-    var SP : UInt8 = 0
+    var SP : UInt8 = SP_RESET_VAL
     /// Processor status. The register stores the state of the processor.
     var P : UInt8 = 0b00100000
     /// Accumulator. The main register for arithmetic and logical operations.
@@ -96,7 +97,7 @@ public class CPU6502 {
     
     func reset() {
         PC = PC_RESET_VAL
-        SP = 0
+        SP = SP_RESET_VAL
         P = 0b00100000
         A = 0
         X = 0
@@ -127,6 +128,9 @@ public class CPU6502 {
             case Operation.JMP:
                 try execJMP(memory, addrMode: addrMode, cycle: &cycle)
                 break
+            case Operation.JSR:
+                try execJSR(memory, addrMode: addrMode, cycle: &cycle)
+                break
             case Operation.LDA:
                 try execLDA(memory, addrMode: addrMode, cycle: &cycle)
                 break
@@ -138,6 +142,9 @@ public class CPU6502 {
                 break
             case Operation.NOP:
                 try execNOP(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.RTS:
+                try execRTS(memory, addrMode: addrMode, cycle: &cycle)
                 break
             case Operation.STA:
                 try execSTA(memory, addrMode: addrMode, cycle: &cycle)
@@ -178,14 +185,17 @@ public class CPU6502 {
         memory[Int(address) + 1] = UInt8(value >> 8)
     }
     
-    /// Get the operator code from a byte. The byte has the form `AAABBBCC`, in which `AAACC` is the operation.
-    internal func getOpCode(_ code: UInt8) -> UInt8 {
-        return ((code & 0b11100000) >> 3) + (code & 0b11)
+    /// Push an address to the stack.
+    internal func pushStack(_ memory: Memory, address: UInt16, cycle: inout Int) {
+        writeWord(memory, address: (0x0100 | UInt16(SP)) - 1, value: address, cycle: &cycle)
+        SP = SP &- 2
     }
     
-    /// Get the addressing code from a byte. The byte has the form `AAABBBCC`, in which `BBB` indicates the addressing mode.
-    internal func getAddrCode(_ code: UInt8) -> UInt8 {
-        return (code & 0b00011100) >> 2
+    /// Pop an address from the stack.
+    internal func popStack(_ memory: Memory, cycle: inout Int) -> UInt16 {
+        SP = SP &+ 2
+        let addr = readWord(memory, address: (0x0100 | UInt16(SP)) - 1, cycle: &cycle)
+        return addr
     }
     
     /// Get the address from immediate addressing. The address is the byte that PC points to.

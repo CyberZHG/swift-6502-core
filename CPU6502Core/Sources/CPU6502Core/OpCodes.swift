@@ -16,9 +16,10 @@ enum AddressingMode {
 
 
 enum Operation {
-    case JMP
+    case JMP, JSR
     case LDA, LDX, LDY
     case NOP
+    case RTS
     case STA, STX, STY
 }
 
@@ -26,6 +27,8 @@ enum Operation {
 let CODE_TO_OPERATION = [
     UInt8(0x4C): (Operation.JMP, AddressingMode.absolute),
     UInt8(0x6C): (Operation.JMP, AddressingMode.indirect),
+    
+    UInt8(0x20): (Operation.JSR, AddressingMode.absolute),
     
     UInt8(0xA9): (Operation.LDA, AddressingMode.immediate),
     UInt8(0xA5): (Operation.LDA, AddressingMode.zeroPage),
@@ -49,6 +52,8 @@ let CODE_TO_OPERATION = [
     UInt8(0xBC): (Operation.LDY, AddressingMode.absoluteX),
     
     UInt8(0xEA): (Operation.NOP, AddressingMode.implied),
+    
+    UInt8(0x60): (Operation.RTS, AddressingMode.implied),
     
     UInt8(0x85): (Operation.STA, AddressingMode.zeroPage),
     UInt8(0x95): (Operation.STA, AddressingMode.zeroPageX),
