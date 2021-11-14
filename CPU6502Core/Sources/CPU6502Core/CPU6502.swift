@@ -195,6 +195,9 @@ public class CPU6502 {
             case Operation.EOR:
                 try execEOR(memory, addrMode: addrMode, cycle: &cycle)
                 break
+            case Operation.BIT:
+                try execBIT(memory, addrMode: addrMode, cycle: &cycle)
+                break
             }
         }
         return cycle
