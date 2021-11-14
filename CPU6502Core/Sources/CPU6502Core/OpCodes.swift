@@ -21,7 +21,7 @@ enum Operation {
     case LDA, LDX, LDY
     case STA, STX, STY
     case TAX, TAY, TXA, TYA
-    case TXS, TSX
+    case TXS, TSX, PHA, PLA, PHP, PLP
 }
 
 /* TODO:
@@ -93,4 +93,12 @@ let CODE_TO_OPERATION = [
     UInt8(0x9A): (Operation.TXS, AddressingMode.implied),
     
     UInt8(0xBA): (Operation.TSX, AddressingMode.implied),
+    
+    UInt8(0x48): (Operation.PHA, AddressingMode.implied),
+    
+    UInt8(0x68): (Operation.PLA, AddressingMode.implied),
+    
+    UInt8(0x08): (Operation.PHP, AddressingMode.implied),
+    
+    UInt8(0x28): (Operation.PLP, AddressingMode.implied),
 ]

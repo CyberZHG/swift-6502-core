@@ -174,6 +174,18 @@ public class CPU6502 {
             case Operation.TSX:
                 try execTSX(memory, addrMode: addrMode, cycle: &cycle)
                 break
+            case Operation.PHA:
+                try execPHA(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.PLA:
+                try execPLA(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.PHP:
+                try execPHP(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.PLP:
+                try execPLP(memory, addrMode: addrMode, cycle: &cycle)
+                break
             }
         }
         return cycle
