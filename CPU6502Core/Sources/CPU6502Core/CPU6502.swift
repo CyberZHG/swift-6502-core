@@ -139,6 +139,15 @@ public class CPU6502 {
             case Operation.NOP:
                 try execNOP(memory, addrMode: addrMode, cycle: &cycle)
                 break
+            case Operation.STA:
+                try execSTA(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.STX:
+                try execSTX(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.STY:
+                try execSTY(memory, addrMode: addrMode, cycle: &cycle)
+                break
             }
         }
         return cycle
@@ -180,86 +189,123 @@ public class CPU6502 {
     }
     
     /// Get the address from immediate addressing. The address is the byte that PC points to.
-    internal func loadAddrImmedidate(_ memory: Memory, cycle: inout Int) -> UInt8 {
-        let addr = readByte(memory, address: PC, cycle: &cycle)
+    internal func getAddrImmedidate(_ memory: Memory, cycle: inout Int) -> UInt16 {
+        let addr = PC
         PC += 1
         return addr
     }
     
     /// Get the address from zero page.
-    internal func loadAddrZeroPage(_ memory: Memory, cycle: inout Int) -> UInt8 {
+    internal func getAddrZeroPage(_ memory: Memory, cycle: inout Int) -> UInt16 {
         let zeroPageAddr = readByte(memory, address: PC, cycle: &cycle)
         PC += 1
-        return readByte(memory, address: UInt16(zeroPageAddr), cycle: &cycle)
+        return UInt16(zeroPageAddr)
     }
     
     /// Get the address from zero page indexed by X. The zero page address should modulo 0x100 after indexing.
-    internal func loadAddrZeroPageX(_ memory: Memory, cycle: inout Int) -> UInt8 {
+    internal func getAddrZeroPageX(_ memory: Memory, cycle: inout Int) -> UInt16 {
         let zeroPageAddr = readByte(memory, address: PC, cycle: &cycle)
         PC += 1
-        let indexedAddr = (UInt16(zeroPageAddr) + UInt16(X)) % 0x100
         cycle += 1
-        return readByte(memory, address: indexedAddr, cycle: &cycle)
+        return (UInt16(zeroPageAddr) + UInt16(X)) % 0x100
     }
     
     /// Get the address from zero page indexed by Y. The zero page address should modulo 0x100 after indexing.
-    internal func loadAddrZeroPageY(_ memory: Memory, cycle: inout Int) -> UInt8 {
+    internal func getAddrZeroPageY(_ memory: Memory, cycle: inout Int) -> UInt16 {
         let zeroPageAddr = readByte(memory, address: PC, cycle: &cycle)
         PC += 1
-        let indexedAddr = (UInt16(zeroPageAddr) + UInt16(Y)) % 0x100
         cycle += 1
-        return readByte(memory, address: indexedAddr, cycle: &cycle)
+        return (UInt16(zeroPageAddr) + UInt16(Y)) % 0x100
     }
     
     /// Get the address from a 2-byte absolute address.
-    internal func loadAddrAbsolute(_ memory: Memory, cycle: inout Int) -> UInt8 {
+    internal func getAddrAbsolute(_ memory: Memory, cycle: inout Int) -> UInt16 {
         let absAddr = readWord(memory, address: PC, cycle: &cycle)
         PC += 2
-        return readByte(memory, address: absAddr, cycle: &cycle)
+        return absAddr
     }
     
     /// Get the address from a 2-byte absolute address indexed by X. One extra cycle is required when a page boundary is crossed.
-    internal func loadAddrAbsoluteX(_ memory: Memory, cycle: inout Int) -> UInt8 {
+    internal func getAddrAbsoluteX(_ memory: Memory, cycle: inout Int, addIndexedCost: Bool) -> UInt16 {
         let absAddr = readWord(memory, address: PC, cycle: &cycle)
         PC += 2
         let indexedAddr = absAddr + UInt16(X)
-        if (absAddr >> 8) != (indexedAddr >> 8) {
+        if addIndexedCost || (absAddr >> 8) != (indexedAddr >> 8) {
             cycle += 1
         }
-        return readByte(memory, address: indexedAddr, cycle: &cycle)
+        return indexedAddr
     }
     
     /// Get the address from a 2-byte absolute address indexed by Y. One extra cycle is required when a page boundary is crossed.
-    internal func loadAddrAbsoluteY(_ memory: Memory, cycle: inout Int) -> UInt8 {
+    internal func getAddrAbsoluteY(_ memory: Memory, cycle: inout Int, addIndexedCost: Bool) -> UInt16 {
         let absAddr = readWord(memory, address: PC, cycle: &cycle)
         PC += 2
         let indexedAddr = absAddr + UInt16(Y)
-        if (absAddr >> 8) != (indexedAddr >> 8) {
+        if addIndexedCost || (absAddr >> 8) != (indexedAddr >> 8) {
             cycle += 1
         }
-        return readByte(memory, address: indexedAddr, cycle: &cycle)
+        return indexedAddr
+    }
+    
+    /// Get the address based on the indirect addressing.
+    internal func getAddrIndirect(_ memory: Memory, cycle: inout Int) -> UInt16 {
+        let indirectAddr = readWord(memory, address: PC, cycle: &cycle)
+        if flags.contains(.useOriginalIncorrectIndirectJMP) && (indirectAddr & 0xFF) == 0xFF {
+            let low = readByte(memory, address: indirectAddr, cycle: &cycle)
+            let high = readByte(memory, address: (indirectAddr & 0xFF00), cycle: &cycle)
+            return (UInt16(high) << 8) | UInt16(low)
+        }
+        return readWord(memory, address: indirectAddr, cycle: &cycle)
     }
     
     /// Get the address based on the indexed indirect addressing.
-    internal func loadAddrIndexedIndirect(_ memory: Memory, cycle: inout Int) -> UInt8 {
+    internal func getAddrIndexedIndirect(_ memory: Memory, cycle: inout Int) -> UInt16 {
         let zeroPageAddr = readByte(memory, address: PC, cycle: &cycle)
         PC += 1
         let indexedAddr = (UInt16(zeroPageAddr) + UInt16(X)) % 0x100
-        let indirectAddr = readWord(memory, address: indexedAddr, cycle: &cycle)
         cycle += 1
-        return readByte(memory, address: indirectAddr, cycle: &cycle)
+        return readWord(memory, address: indexedAddr, cycle: &cycle)
     }
     
     /// Get the address based on the indirect indexed addressing.
-    internal func loadAddrIndirectIndexed(_ memory: Memory, cycle: inout Int) -> UInt8 {
+    internal func getAddrIndirectIndexed(_ memory: Memory, cycle: inout Int, addIndexedCost: Bool) -> UInt16 {
         let zeroPageAddr = readByte(memory, address: PC, cycle: &cycle)
         PC += 1
         let indirectAddr = readWord(memory, address: UInt16(zeroPageAddr), cycle: &cycle)
         let indexedAddr = indirectAddr + UInt16(Y)
-        if (indirectAddr >> 8) != (indexedAddr >> 8) {
+        if addIndexedCost || (indirectAddr >> 8) != (indexedAddr >> 8) {
             cycle += 1
         }
-        return readByte(memory, address: indexedAddr, cycle: &cycle)
+        return indexedAddr
+    }
+    
+    /// Get the address based on the addressing mode.
+    internal func getAddress(_ memory: Memory, addrMode: AddressingMode,
+                             cycle: inout Int, addIndexedCost: Bool = false) throws -> UInt16 {
+        switch addrMode {
+        case .immediate:
+            return getAddrImmedidate(memory, cycle: &cycle)
+        case .zeroPage:
+            return getAddrZeroPage(memory, cycle: &cycle)
+        case .zeroPageX:
+            return getAddrZeroPageX(memory, cycle: &cycle)
+        case .zeroPageY:
+            return getAddrZeroPageY(memory, cycle: &cycle)
+        case .absolute:
+            return getAddrAbsolute(memory, cycle: &cycle)
+        case .absoluteX:
+            return getAddrAbsoluteX(memory, cycle: &cycle, addIndexedCost: addIndexedCost)
+        case .absoluteY:
+            return getAddrAbsoluteY(memory, cycle: &cycle, addIndexedCost: addIndexedCost)
+        case .indirect:
+            return getAddrIndirect(memory, cycle: &cycle)
+        case .indexedIndirect:
+            return getAddrIndexedIndirect(memory, cycle: &cycle)
+        case .indirectIndexed:
+            return getAddrIndirectIndexed(memory, cycle: &cycle, addIndexedCost: addIndexedCost)
+        default:
+            throw EmulateError.invalidAddrMode
+        }
     }
     
     /// Update status based on A. A only affects zero and negative flags.
