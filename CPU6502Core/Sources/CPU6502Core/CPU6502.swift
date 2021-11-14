@@ -186,6 +186,15 @@ public class CPU6502 {
             case Operation.PLP:
                 try execPLP(memory, addrMode: addrMode, cycle: &cycle)
                 break
+            case Operation.AND:
+                try execAND(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.ORA:
+                try execORA(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.EOR:
+                try execEOR(memory, addrMode: addrMode, cycle: &cycle)
+                break
             }
         }
         return cycle

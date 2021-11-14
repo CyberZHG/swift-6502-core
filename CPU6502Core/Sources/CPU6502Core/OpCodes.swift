@@ -22,14 +22,15 @@ enum Operation {
     case STA, STX, STY
     case TAX, TAY, TXA, TYA
     case TXS, TSX, PHA, PLA, PHP, PLP
+    case AND, ORA, EOR
 }
 
 /* TODO:
- ADC AND ASL BCC BCS BEQ BIT
+ ADC ASL BCC BCS BEQ BIT
  BMI BNE BPL BRK BVC BVS CLC
  CLD CLI CLV CMP CPX CPY DEC
- DEX DEY EOR INC INX INY
- LSR ORA
+ DEX DEY INC INX INY
+ LSR
  PHA PHP PLA PLP ROL ROR RTI
  SBC SEC SED SEI
  */
@@ -101,4 +102,31 @@ let CODE_TO_OPERATION = [
     UInt8(0x08): (Operation.PHP, AddressingMode.implied),
     
     UInt8(0x28): (Operation.PLP, AddressingMode.implied),
+    
+    UInt8(0x29): (Operation.AND, AddressingMode.immediate),
+    UInt8(0x25): (Operation.AND, AddressingMode.zeroPage),
+    UInt8(0x35): (Operation.AND, AddressingMode.zeroPageX),
+    UInt8(0x2D): (Operation.AND, AddressingMode.absolute),
+    UInt8(0x3D): (Operation.AND, AddressingMode.absoluteX),
+    UInt8(0x39): (Operation.AND, AddressingMode.absoluteY),
+    UInt8(0x21): (Operation.AND, AddressingMode.indexedIndirect),
+    UInt8(0x31): (Operation.AND, AddressingMode.indirectIndexed),
+    
+    UInt8(0x09): (Operation.ORA, AddressingMode.immediate),
+    UInt8(0x05): (Operation.ORA, AddressingMode.zeroPage),
+    UInt8(0x15): (Operation.ORA, AddressingMode.zeroPageX),
+    UInt8(0x0D): (Operation.ORA, AddressingMode.absolute),
+    UInt8(0x1D): (Operation.ORA, AddressingMode.absoluteX),
+    UInt8(0x19): (Operation.ORA, AddressingMode.absoluteY),
+    UInt8(0x01): (Operation.ORA, AddressingMode.indexedIndirect),
+    UInt8(0x11): (Operation.ORA, AddressingMode.indirectIndexed),
+    
+    UInt8(0x49): (Operation.EOR, AddressingMode.immediate),
+    UInt8(0x45): (Operation.EOR, AddressingMode.zeroPage),
+    UInt8(0x55): (Operation.EOR, AddressingMode.zeroPageX),
+    UInt8(0x4D): (Operation.EOR, AddressingMode.absolute),
+    UInt8(0x5D): (Operation.EOR, AddressingMode.absoluteX),
+    UInt8(0x59): (Operation.EOR, AddressingMode.absoluteY),
+    UInt8(0x41): (Operation.EOR, AddressingMode.indexedIndirect),
+    UInt8(0x51): (Operation.EOR, AddressingMode.indirectIndexed),
 ]
