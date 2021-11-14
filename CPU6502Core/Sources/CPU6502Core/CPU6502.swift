@@ -1,5 +1,6 @@
 let PC_RESET_VAL: UInt16 = 0xFFFC
 let SP_RESET_VAL: UInt8 = 0xFF
+let P_RESET_VAL: UInt8 = 0b00100110
 
 enum EmulateError: Error {
     case invalidOpCode
@@ -22,7 +23,7 @@ public class CPU6502 {
     /// Stack pointer. This contains the offset to the stack page (`$0100` - `$01FF`).
     var SP : UInt8 = SP_RESET_VAL
     /// Processor status. The register stores the state of the processor.
-    var P : UInt8 = 0b00100000
+    var P : UInt8 = P_RESET_VAL
     /// Accumulator. The main register for arithmetic and logical operations.
     var A : UInt8 = 0
     /// X index register. This generally is for addressing.
@@ -98,7 +99,7 @@ public class CPU6502 {
     func reset() {
         PC = PC_RESET_VAL
         SP = SP_RESET_VAL
-        P = 0b00100000
+        P = P_RESET_VAL
         A = 0
         X = 0
         Y = 0

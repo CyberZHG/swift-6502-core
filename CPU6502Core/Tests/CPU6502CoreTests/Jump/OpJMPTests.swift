@@ -19,7 +19,7 @@ final class OpJMPTests: XCTestCase {
         XCTAssertEqual(actualCycle, 5)
         XCTAssertEqual(self.cpu.PC, 0xABCF)
         XCTAssertEqual(self.cpu.A, 0x0A)
-        XCTAssertEqual(self.cpu.P, 0b00100000)
+        XCTAssertEqual(self.cpu.P, 0b00100100)
     }
     
     func testJMPIndirect() throws {
@@ -31,7 +31,7 @@ final class OpJMPTests: XCTestCase {
         XCTAssertEqual(actualCycle, 7)
         XCTAssertEqual(self.cpu.PC, 0xCDAD)
         XCTAssertEqual(self.cpu.A, 0x0A)
-        XCTAssertEqual(self.cpu.P, 0b00100000)
+        XCTAssertEqual(self.cpu.P, 0b00100100)
         
         self.memory.setBytes(start: 0x0000, bytes: [0x6C, 0xFF, 0xAB])
         self.memory.setBytes(start: 0xABFF, bytes: [0xAB, 0xCD])
@@ -41,7 +41,7 @@ final class OpJMPTests: XCTestCase {
         XCTAssertEqual(actualCycle, 7)
         XCTAssertEqual(self.cpu.PC, 0xCDAD)
         XCTAssertEqual(self.cpu.A, 0x0A)
-        XCTAssertEqual(self.cpu.P, 0b00100000)
+        XCTAssertEqual(self.cpu.P, 0b00100100)
     }
     
     func testJMPIndirectOriginal() throws {
@@ -56,6 +56,6 @@ final class OpJMPTests: XCTestCase {
         XCTAssertEqual(actualCycle, 7)
         XCTAssertEqual(self.cpu.PC, 0xABCF)
         XCTAssertEqual(self.cpu.A, 0x0A)
-        XCTAssertEqual(self.cpu.P, 0b00100000)
+        XCTAssertEqual(self.cpu.P, 0b00100100)
     }
 }

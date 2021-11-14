@@ -18,7 +18,7 @@ final class OpLDYTests: XCTestCase {
         XCTAssertEqual(actualCycle, 2)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.Y, 0x0A)
-        XCTAssertEqual(self.cpu.P, 0b00100000)
+        XCTAssertEqual(self.cpu.P, 0b00100100)
         
         self.memory.setBytes(start: 0x0000, bytes: [0xA0, 0x00])
         self.cpu.PC = 0x0000
@@ -26,7 +26,7 @@ final class OpLDYTests: XCTestCase {
         XCTAssertEqual(actualCycle, 2)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.Y, 0x00)
-        XCTAssertEqual(self.cpu.P, 0b00100010)
+        XCTAssertEqual(self.cpu.P, 0b00100110)
         XCTAssertEqual(self.cpu.Z, true)
         
         self.memory.setBytes(start: 0x0000, bytes: [0xA0, 0xFF])
@@ -35,7 +35,7 @@ final class OpLDYTests: XCTestCase {
         XCTAssertEqual(actualCycle, 2)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.Y, 0xFF)
-        XCTAssertEqual(self.cpu.P, 0b10100000)
+        XCTAssertEqual(self.cpu.P, 0b10100100)
         XCTAssertEqual(self.cpu.N, true)
     }
     
@@ -47,7 +47,7 @@ final class OpLDYTests: XCTestCase {
         XCTAssertEqual(actualCycle, 3)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.Y, 0xA5)
-        XCTAssertEqual(self.cpu.P, 0b10100000)
+        XCTAssertEqual(self.cpu.P, 0b10100100)
     }
     
     func testLDYZeroPageX() throws {
@@ -59,7 +59,7 @@ final class OpLDYTests: XCTestCase {
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.Y, 0xAB)
-        XCTAssertEqual(self.cpu.P, 0b10100000)
+        XCTAssertEqual(self.cpu.P, 0b10100100)
         
         self.cpu.PC = 0x0000
         self.cpu.X = 1
@@ -67,7 +67,7 @@ final class OpLDYTests: XCTestCase {
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.Y, 0xCD)
-        XCTAssertEqual(self.cpu.P, 0b10100000)
+        XCTAssertEqual(self.cpu.P, 0b10100100)
         
         self.memory.setBytes(start: 0x0000, bytes: [0xB4, 0xFF])
         self.cpu.PC = 0x0000
@@ -76,7 +76,7 @@ final class OpLDYTests: XCTestCase {
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.Y, 0xAB)
-        XCTAssertEqual(self.cpu.P, 0b10100000)
+        XCTAssertEqual(self.cpu.P, 0b10100100)
     }
     
     func testLDYAbsolute() throws {
@@ -87,7 +87,7 @@ final class OpLDYTests: XCTestCase {
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.Y, 0xFE)
-        XCTAssertEqual(self.cpu.P, 0b10100000)
+        XCTAssertEqual(self.cpu.P, 0b10100100)
     }
     
     func testLDYAbsoluteY() throws {
@@ -100,7 +100,7 @@ final class OpLDYTests: XCTestCase {
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.Y, 0xFE)
-        XCTAssertEqual(self.cpu.P, 0b10100000)
+        XCTAssertEqual(self.cpu.P, 0b10100100)
         
         self.cpu.PC = 0x0000
         self.cpu.X = 1
@@ -108,7 +108,7 @@ final class OpLDYTests: XCTestCase {
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.Y, 0xFC)
-        XCTAssertEqual(self.cpu.P, 0b10100000)
+        XCTAssertEqual(self.cpu.P, 0b10100100)
         
         self.cpu.PC = 0x0000
         self.cpu.X = 0x60
@@ -116,7 +116,7 @@ final class OpLDYTests: XCTestCase {
         XCTAssertEqual(actualCycle, 5)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.Y, 0xFA)
-        XCTAssertEqual(self.cpu.P, 0b10100000)
+        XCTAssertEqual(self.cpu.P, 0b10100100)
     }
     
 }
