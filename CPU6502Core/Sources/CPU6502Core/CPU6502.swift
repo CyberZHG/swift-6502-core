@@ -198,6 +198,27 @@ public class CPU6502 {
             case Operation.BIT:
                 try execBIT(memory, addrMode: addrMode, cycle: &cycle)
                 break
+            case Operation.CLC:
+                try execCLC(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.SEC:
+                try execSEC(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.CLD:
+                try execCLD(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.SED:
+                try execSED(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.CLI:
+                try execCLI(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.SEI:
+                try execSEI(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.CLV:
+                try execCLV(memory, addrMode: addrMode, cycle: &cycle)
+                break
             }
         }
         return cycle
