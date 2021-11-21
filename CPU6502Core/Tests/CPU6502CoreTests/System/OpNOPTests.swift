@@ -17,6 +17,6 @@ final class OpNOPTests: XCTestCase {
         let actualCycle = try self.cpu.execute(memory, maxCycle: 4)
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0002)
-        XCTAssertEqual(self.cpu.P, 0b00100110)
+        XCTAssertEqual(self.cpu.P, 0b00110110)
     }
 }

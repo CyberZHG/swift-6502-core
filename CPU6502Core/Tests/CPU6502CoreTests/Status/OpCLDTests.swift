@@ -17,13 +17,13 @@ final class OpCLDTests: XCTestCase {
         var actualCycle = try self.cpu.execute(memory, maxCycle: 2)
         XCTAssertEqual(actualCycle, 2)
         XCTAssertEqual(self.cpu.PC, 0x0001)
-        XCTAssertEqual(self.cpu.P, 0b00101110)
+        XCTAssertEqual(self.cpu.P, 0b00111110)
         XCTAssertEqual(self.cpu.D, true)
         
         actualCycle = try self.cpu.execute(memory, maxCycle: 2)
         XCTAssertEqual(actualCycle, 2)
         XCTAssertEqual(self.cpu.PC, 0x0002)
-        XCTAssertEqual(self.cpu.P, 0b00100110)
+        XCTAssertEqual(self.cpu.P, 0b00110110)
         XCTAssertEqual(self.cpu.D, false)
     }
     

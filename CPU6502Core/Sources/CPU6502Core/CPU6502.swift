@@ -1,6 +1,6 @@
 let PC_RESET_VAL: UInt16 = 0xFFFC
 let SP_RESET_VAL: UInt8 = 0xFF
-let P_RESET_VAL: UInt8 = 0b00100110
+let P_RESET_VAL: UInt8 = 0b00110110
 
 enum EmulateError: Error {
     case invalidOpCode

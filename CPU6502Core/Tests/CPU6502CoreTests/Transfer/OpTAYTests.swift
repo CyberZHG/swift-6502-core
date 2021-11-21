@@ -19,7 +19,7 @@ final class OpTAYTests: XCTestCase {
         var actualCycle = try self.cpu.execute(memory, maxCycle: 2)
         XCTAssertEqual(actualCycle, 2)
         XCTAssertEqual(self.cpu.PC, 0x0001)
-        XCTAssertEqual(self.cpu.P, 0b00100110)
+        XCTAssertEqual(self.cpu.P, 0b00110110)
         XCTAssertEqual(self.cpu.Y, 0x00)
         
         self.cpu.PC = 0x0000
@@ -28,7 +28,7 @@ final class OpTAYTests: XCTestCase {
         actualCycle = try self.cpu.execute(memory, maxCycle: 2)
         XCTAssertEqual(actualCycle, 2)
         XCTAssertEqual(self.cpu.PC, 0x0001)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
         XCTAssertEqual(self.cpu.Y, 0xFE)
         
         self.cpu.PC = 0x0000
@@ -37,7 +37,7 @@ final class OpTAYTests: XCTestCase {
         actualCycle = try self.cpu.execute(memory, maxCycle: 2)
         XCTAssertEqual(actualCycle, 2)
         XCTAssertEqual(self.cpu.PC, 0x0001)
-        XCTAssertEqual(self.cpu.P, 0b00100100)
+        XCTAssertEqual(self.cpu.P, 0b00110100)
         XCTAssertEqual(self.cpu.Y, 0x12)
     }
 }

@@ -19,7 +19,7 @@ final class OpSBCTests: XCTestCase {
         XCTAssertEqual(actualCycle, 2)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.A, 0x41)
-        XCTAssertEqual(self.cpu.P, 0b00100101)
+        XCTAssertEqual(self.cpu.P, 0b00110101)
         
         self.memory.setBytes(start: 0x0000, bytes: [0xE9, 0x69])
         self.cpu.PC = 0x0000
@@ -27,7 +27,7 @@ final class OpSBCTests: XCTestCase {
         XCTAssertEqual(actualCycle, 2)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.A, 0xD8)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
         
         self.memory.setBytes(start: 0x0000, bytes: [0xE9, 0xFF])
         self.cpu.PC = 0x0000
@@ -35,7 +35,7 @@ final class OpSBCTests: XCTestCase {
         XCTAssertEqual(actualCycle, 2)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.A, 0xD8)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
     }
     
     func testSBCImmediateBCD() throws {
@@ -46,7 +46,7 @@ final class OpSBCTests: XCTestCase {
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.A, 0x20)
-        XCTAssertEqual(self.cpu.P, 0b00101101)
+        XCTAssertEqual(self.cpu.P, 0b00111101)
         
         self.memory.setBytes(start: 0x0000, bytes: [0xF8, 0xE9, 0x50])
         self.cpu.PC = 0x0000
@@ -55,7 +55,7 @@ final class OpSBCTests: XCTestCase {
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.A, 0x00)
-        XCTAssertEqual(self.cpu.P, 0b00101111)
+        XCTAssertEqual(self.cpu.P, 0b00111111)
         
         self.memory.setBytes(start: 0x0000, bytes: [0xF8, 0xE9, 0x50])
         self.cpu.PC = 0x0000
@@ -64,7 +64,7 @@ final class OpSBCTests: XCTestCase {
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.A, 0x99)
-        XCTAssertEqual(self.cpu.P, 0b10101100)
+        XCTAssertEqual(self.cpu.P, 0b10111100)
         
         self.memory.setBytes(start: 0x0000, bytes: [0xF8, 0xE9, 0x0F])
         self.cpu.PC = 0x0000
@@ -74,7 +74,7 @@ final class OpSBCTests: XCTestCase {
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.A, 0x9B)
-        XCTAssertEqual(self.cpu.P, 0b10101100)
+        XCTAssertEqual(self.cpu.P, 0b10111100)
     }
     
     func testSBCZeroPage() throws {
@@ -85,7 +85,7 @@ final class OpSBCTests: XCTestCase {
         XCTAssertEqual(actualCycle, 3)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.A, 0xC4)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
     }
     
     func testSBCZeroPageX() throws {
@@ -98,7 +98,7 @@ final class OpSBCTests: XCTestCase {
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.A, 0x64)
-        XCTAssertEqual(self.cpu.P, 0b00100100)
+        XCTAssertEqual(self.cpu.P, 0b00110100)
         
         self.cpu.PC = 0x0000
         self.cpu.X = 1
@@ -106,7 +106,7 @@ final class OpSBCTests: XCTestCase {
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.A, 0x96)
-        XCTAssertEqual(self.cpu.P, 0b11100100)
+        XCTAssertEqual(self.cpu.P, 0b11110100)
     }
     
     func testSBCAbsolute() throws {
@@ -119,7 +119,7 @@ final class OpSBCTests: XCTestCase {
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.A, 0xAB)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
     }
     
     func testSBCAbsoluteX() throws {
@@ -133,7 +133,7 @@ final class OpSBCTests: XCTestCase {
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.A, 0xAB)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
         
         self.cpu.PC = 0x0000
         self.cpu.X = 1
@@ -141,7 +141,7 @@ final class OpSBCTests: XCTestCase {
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.A, 0xAE)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
         
         self.cpu.PC = 0x0000
         self.cpu.X = 0x60
@@ -149,7 +149,7 @@ final class OpSBCTests: XCTestCase {
         XCTAssertEqual(actualCycle, 5)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.A, 0xB3)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
     }
     
     func testSBCAbsoluteY() throws {
@@ -163,7 +163,7 @@ final class OpSBCTests: XCTestCase {
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.A, 0xAB)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
         
         self.cpu.PC = 0x0000
         self.cpu.Y = 1
@@ -171,7 +171,7 @@ final class OpSBCTests: XCTestCase {
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.A, 0xAE)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
         
         self.cpu.PC = 0x0000
         self.cpu.Y = 0x60
@@ -179,7 +179,7 @@ final class OpSBCTests: XCTestCase {
         XCTAssertEqual(actualCycle, 5)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.A, 0xB3)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
     }
     
     func testSBCIndexedIndirect() throws {
@@ -193,7 +193,7 @@ final class OpSBCTests: XCTestCase {
         XCTAssertEqual(actualCycle, 6)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.A, 0x67)
-        XCTAssertEqual(self.cpu.P, 0b01100101)
+        XCTAssertEqual(self.cpu.P, 0b01110101)
     }
     
     func testSBCIndirectIndexed() throws {
@@ -208,7 +208,7 @@ final class OpSBCTests: XCTestCase {
         XCTAssertEqual(actualCycle, 5)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.A, 0x66)
-        XCTAssertEqual(self.cpu.P, 0b01100101)
+        XCTAssertEqual(self.cpu.P, 0b01110101)
         
         self.cpu.PC = 0x0000
         self.cpu.Y = 0xF0
@@ -216,7 +216,7 @@ final class OpSBCTests: XCTestCase {
         XCTAssertEqual(actualCycle, 6)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.A, 0x22)
-        XCTAssertEqual(self.cpu.P, 0b00100101)
+        XCTAssertEqual(self.cpu.P, 0b00110101)
     }
     
 }

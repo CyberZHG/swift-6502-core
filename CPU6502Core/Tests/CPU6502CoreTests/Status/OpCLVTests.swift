@@ -18,7 +18,7 @@ final class OpCLVTests: XCTestCase {
         let actualCycle = try self.cpu.execute(memory, maxCycle: 2)
         XCTAssertEqual(actualCycle, 2)
         XCTAssertEqual(self.cpu.PC, 0x0001)
-        XCTAssertEqual(self.cpu.P, 0b00100110)
+        XCTAssertEqual(self.cpu.P, 0b00110110)
         XCTAssertEqual(self.cpu.V, false)
     }
     

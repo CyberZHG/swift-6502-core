@@ -19,7 +19,7 @@ final class OpORATests: XCTestCase {
         XCTAssertEqual(actualCycle, 2)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.A, 0b01111010)
-        XCTAssertEqual(self.cpu.P, 0b00100100)
+        XCTAssertEqual(self.cpu.P, 0b00110100)
         
         self.memory.setBytes(start: 0x0000, bytes: [0x09, 0b00000000])
         self.cpu.PC = 0x0000
@@ -28,7 +28,7 @@ final class OpORATests: XCTestCase {
         XCTAssertEqual(actualCycle, 2)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.A, 0x00)
-        XCTAssertEqual(self.cpu.P, 0b00100110)
+        XCTAssertEqual(self.cpu.P, 0b00110110)
         XCTAssertEqual(self.cpu.Z, true)
         
         self.memory.setBytes(start: 0x0000, bytes: [0x09, 0xFF])
@@ -38,7 +38,7 @@ final class OpORATests: XCTestCase {
         XCTAssertEqual(actualCycle, 2)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.A, 0xFF)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
         XCTAssertEqual(self.cpu.N, true)
     }
     
@@ -50,7 +50,7 @@ final class OpORATests: XCTestCase {
         XCTAssertEqual(actualCycle, 3)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.A, 0xAF)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
     }
     
     func testORAZeroPageX() throws {
@@ -63,7 +63,7 @@ final class OpORATests: XCTestCase {
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.A, 0xAB)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
         
         self.cpu.PC = 0x0000
         self.cpu.X = 1
@@ -71,7 +71,7 @@ final class OpORATests: XCTestCase {
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.A, 0xEF)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
     }
     
     func testORAAbsolute() throws {
@@ -84,7 +84,7 @@ final class OpORATests: XCTestCase {
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.A, 0xFE)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
     }
     
     func testORAAbsoluteX() throws {
@@ -98,7 +98,7 @@ final class OpORATests: XCTestCase {
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.A, 0xFE)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
         
         self.cpu.PC = 0x0000
         self.cpu.X = 1
@@ -106,7 +106,7 @@ final class OpORATests: XCTestCase {
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.A, 0xFE)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
         
         self.cpu.PC = 0x0000
         self.cpu.X = 0x60
@@ -114,7 +114,7 @@ final class OpORATests: XCTestCase {
         XCTAssertEqual(actualCycle, 5)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.A, 0xFE)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
     }
     
     func testORAAbsoluteY() throws {
@@ -128,7 +128,7 @@ final class OpORATests: XCTestCase {
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.A, 0xFE)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
         
         self.cpu.PC = 0x0000
         self.cpu.Y = 1
@@ -136,7 +136,7 @@ final class OpORATests: XCTestCase {
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.A, 0xFE)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
         
         self.cpu.PC = 0x0000
         self.cpu.Y = 0x60
@@ -144,7 +144,7 @@ final class OpORATests: XCTestCase {
         XCTAssertEqual(actualCycle, 5)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.A, 0xFE)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
     }
     
     func testORAIndexedIndirect() throws {
@@ -158,7 +158,7 @@ final class OpORATests: XCTestCase {
         XCTAssertEqual(actualCycle, 6)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.A, 0xEA)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
     }
     
     func testORAIndirectIndexed() throws {
@@ -173,7 +173,7 @@ final class OpORATests: XCTestCase {
         XCTAssertEqual(actualCycle, 5)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.A, 0xEB)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
         
         self.cpu.PC = 0x0000
         self.cpu.Y = 0xF0
@@ -181,7 +181,7 @@ final class OpORATests: XCTestCase {
         XCTAssertEqual(actualCycle, 6)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.A, 0xEF)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
     }
     
 }

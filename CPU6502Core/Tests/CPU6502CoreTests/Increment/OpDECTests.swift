@@ -17,7 +17,7 @@ final class OpDECTests: XCTestCase {
         let actualCycle = try self.cpu.execute(memory, maxCycle: 3)
         XCTAssertEqual(actualCycle, 5)
         XCTAssertEqual(self.cpu.PC, 0x0002)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
         XCTAssertEqual(self.memory[0x0000], 0xC5)
     }
     
@@ -29,7 +29,7 @@ final class OpDECTests: XCTestCase {
         let actualCycle = try self.cpu.execute(memory, maxCycle: 6)
         XCTAssertEqual(actualCycle, 6)
         XCTAssertEqual(self.cpu.PC, 0x0002)
-        XCTAssertEqual(self.cpu.P, 0b00100110)
+        XCTAssertEqual(self.cpu.P, 0b00110110)
         XCTAssertEqual(self.memory[0x0011], 0x00)
     }
     
@@ -40,7 +40,7 @@ final class OpDECTests: XCTestCase {
         let actualCycle = try self.cpu.execute(memory, maxCycle: 6)
         XCTAssertEqual(actualCycle, 6)
         XCTAssertEqual(self.cpu.PC, 0x0003)
-        XCTAssertEqual(self.cpu.P, 0b00100100)
+        XCTAssertEqual(self.cpu.P, 0b00110100)
         XCTAssertEqual(self.memory[0xABCD], 0x0F)
     }
     
@@ -53,7 +53,7 @@ final class OpDECTests: XCTestCase {
         var actualCycle = try self.cpu.execute(memory, maxCycle: 7)
         XCTAssertEqual(actualCycle, 7)
         XCTAssertEqual(self.cpu.PC, 0x0003)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
         XCTAssertEqual(self.memory[0xABCE], 0xFB)
         
         self.cpu.PC = 0x0000
@@ -61,7 +61,7 @@ final class OpDECTests: XCTestCase {
         actualCycle = try self.cpu.execute(memory, maxCycle: 7)
         XCTAssertEqual(actualCycle, 7)
         XCTAssertEqual(self.cpu.PC, 0x0003)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
         XCTAssertEqual(self.memory[0xAC2D], 0xF9)
     }
     

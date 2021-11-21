@@ -19,7 +19,7 @@ final class OpINYTests: XCTestCase {
         XCTAssertEqual(actualCycle, 2)
         XCTAssertEqual(self.cpu.PC, 0x0001)
         XCTAssertEqual(self.cpu.Y, 0x01)
-        XCTAssertEqual(self.cpu.P, 0b00100100)
+        XCTAssertEqual(self.cpu.P, 0b00110100)
         
         self.cpu.PC = 0x0000
         self.cpu.Y = 0xFF
@@ -27,7 +27,7 @@ final class OpINYTests: XCTestCase {
         XCTAssertEqual(actualCycle, 2)
         XCTAssertEqual(self.cpu.PC, 0x0001)
         XCTAssertEqual(self.cpu.Y, 0x00)
-        XCTAssertEqual(self.cpu.P, 0b00100110)
+        XCTAssertEqual(self.cpu.P, 0b00110110)
         
         self.cpu.PC = 0x0000
         self.cpu.Y = 0xFE
@@ -35,7 +35,7 @@ final class OpINYTests: XCTestCase {
         XCTAssertEqual(actualCycle, 2)
         XCTAssertEqual(self.cpu.PC, 0x0001)
         XCTAssertEqual(self.cpu.Y, 0xFF)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
     }
     
 }

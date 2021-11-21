@@ -19,7 +19,7 @@ final class OpBITTests: XCTestCase {
         XCTAssertEqual(actualCycle, 3)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.A, 0b11000000)
-        XCTAssertEqual(self.cpu.P, 0b00100110)
+        XCTAssertEqual(self.cpu.P, 0b00110110)
         
         self.memory.setBytes(start: 0x0000, bytes: [0x24, 0x02, 0b01000000])
         self.cpu.PC = 0x0000
@@ -28,7 +28,7 @@ final class OpBITTests: XCTestCase {
         XCTAssertEqual(actualCycle, 3)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.A, 0b11000000)
-        XCTAssertEqual(self.cpu.P, 0b01100100)
+        XCTAssertEqual(self.cpu.P, 0b01110100)
         
         self.memory.setBytes(start: 0x0000, bytes: [0x24, 0x02, 0b10000000])
         self.cpu.PC = 0x0000
@@ -37,7 +37,7 @@ final class OpBITTests: XCTestCase {
         XCTAssertEqual(actualCycle, 3)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.A, 0b11000000)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
     }
     
     func testBITAbsolute() throws {
@@ -50,7 +50,7 @@ final class OpBITTests: XCTestCase {
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0003)
         XCTAssertEqual(self.cpu.A, 0b11000000)
-        XCTAssertEqual(self.cpu.P, 0b11100100)
+        XCTAssertEqual(self.cpu.P, 0b11110100)
     }
     
 }

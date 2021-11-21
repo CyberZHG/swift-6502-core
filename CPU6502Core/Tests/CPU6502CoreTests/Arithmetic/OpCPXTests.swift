@@ -19,21 +19,21 @@ final class OpCPXTests: XCTestCase {
         XCTAssertEqual(actualCycle, 2)
         XCTAssertEqual(self.cpu.PC, 0x0002)
         XCTAssertEqual(self.cpu.X, 0x42)
-        XCTAssertEqual(self.cpu.P, 0b00100111)
+        XCTAssertEqual(self.cpu.P, 0b00110111)
         
         self.memory.setBytes(start: 0x0000, bytes: [0xE0, 0x41])
         self.cpu.PC = 0x0000
         actualCycle = try self.cpu.execute(memory, maxCycle: 2)
         XCTAssertEqual(actualCycle, 2)
         XCTAssertEqual(self.cpu.PC, 0x0002)
-        XCTAssertEqual(self.cpu.P, 0b00100101)
+        XCTAssertEqual(self.cpu.P, 0b00110101)
         
         self.memory.setBytes(start: 0x0000, bytes: [0xE0, 0x43])
         self.cpu.PC = 0x0000
         actualCycle = try self.cpu.execute(memory, maxCycle: 2)
         XCTAssertEqual(actualCycle, 2)
         XCTAssertEqual(self.cpu.PC, 0x0002)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
     }
     
     func testCPXZeroPage() throws {
@@ -43,7 +43,7 @@ final class OpCPXTests: XCTestCase {
         let actualCycle = try self.cpu.execute(memory, maxCycle: 3)
         XCTAssertEqual(actualCycle, 3)
         XCTAssertEqual(self.cpu.PC, 0x0002)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
     }
     
     func testCPXAbsolute() throws {
@@ -54,7 +54,7 @@ final class OpCPXTests: XCTestCase {
         let actualCycle = try self.cpu.execute(memory, maxCycle: 4)
         XCTAssertEqual(actualCycle, 4)
         XCTAssertEqual(self.cpu.PC, 0x0003)
-        XCTAssertEqual(self.cpu.P, 0b10100100)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
     }
     
 }
