@@ -9,6 +9,11 @@ extension CPU6502 {
         pushByte(memory, value: P, cycle: &cycle)
         cycle += 1
         PC = readWord(memory, address: 0xFFFE, cycle: &cycle)
-        I = true
+    }
+    
+    func execRTI(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
+        P = popByte(memory, cycle: &cycle)
+        PC = popWord(memory, cycle: &cycle)
+        cycle += 2
     }
 }
