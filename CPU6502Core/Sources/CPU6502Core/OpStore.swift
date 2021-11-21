@@ -13,4 +13,9 @@ extension CPU6502 {
         let address = try getAddress(memory, addrMode: addrMode, cycle: &cycle, addIndexedCost: true)
         writeByte(memory, address: address, value: Y, cycle: &cycle)
     }
+    
+    func execSAX(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
+        let address = try getAddress(memory, addrMode: addrMode, cycle: &cycle, addIndexedCost: true)
+        writeByte(memory, address: address, value: A & X, cycle: &cycle)
+    }
 }

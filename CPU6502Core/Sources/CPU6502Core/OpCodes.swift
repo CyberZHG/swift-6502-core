@@ -21,6 +21,7 @@ enum Operation {
     case LDA, LDX, LDY
     case LAS, LAX  // Undocumented
     case STA, STX, STY
+    case SAX  // Undocumented
     case TAX, TAY, TXA, TYA
     case TXS, TSX, PHA, PLA, PHP, PLP
     case AND, ORA, EOR, BIT
@@ -119,6 +120,11 @@ let CODE_TO_OPERATION = [
     UInt8(0x84): (Operation.STY, AddressingMode.zeroPage),
     UInt8(0x94): (Operation.STY, AddressingMode.zeroPageX),
     UInt8(0x8C): (Operation.STY, AddressingMode.absolute),
+    
+    UInt8(0x87): (Operation.SAX, AddressingMode.zeroPage),  // Undocumented
+    UInt8(0x97): (Operation.SAX, AddressingMode.zeroPageY),  // Undocumented
+    UInt8(0x8F): (Operation.SAX, AddressingMode.absolute),  // Undocumented
+    UInt8(0x83): (Operation.SAX, AddressingMode.indexedIndirect),  // Undocumented
     
     UInt8(0xAA): (Operation.TAX, AddressingMode.implied),
     
