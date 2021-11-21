@@ -19,4 +19,9 @@ extension CPU6502 {
         PC = popWord(memory, cycle: &cycle)
         cycle += 2
     }
+    
+    func execJAM(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
+        cycle += 1
+        halt = true
+    }
 }

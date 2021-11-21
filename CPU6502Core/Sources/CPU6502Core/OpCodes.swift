@@ -17,6 +17,7 @@ enum AddressingMode {
 
 enum Operation {
     case NOP, BRK, RTI
+    case JAM  // Undocumented
     case JMP, JSR, RTS
     case LDA, LDX, LDY
     case LAS, LAX  // Undocumented
@@ -68,6 +69,19 @@ let CODE_TO_OPERATION = [
     UInt8(0x00): (Operation.BRK, AddressingMode.implied),
     
     UInt8(0x40): (Operation.RTI, AddressingMode.implied),
+    
+    UInt8(0x02): (Operation.JAM, AddressingMode.implied),  // Undocumented
+    UInt8(0x12): (Operation.JAM, AddressingMode.implied),  // Undocumented
+    UInt8(0x22): (Operation.JAM, AddressingMode.implied),  // Undocumented
+    UInt8(0x32): (Operation.JAM, AddressingMode.implied),  // Undocumented
+    UInt8(0x42): (Operation.JAM, AddressingMode.implied),  // Undocumented
+    UInt8(0x52): (Operation.JAM, AddressingMode.implied),  // Undocumented
+    UInt8(0x62): (Operation.JAM, AddressingMode.implied),  // Undocumented
+    UInt8(0x72): (Operation.JAM, AddressingMode.implied),  // Undocumented
+    UInt8(0x92): (Operation.JAM, AddressingMode.implied),  // Undocumented
+    UInt8(0xB2): (Operation.JAM, AddressingMode.implied),  // Undocumented
+    UInt8(0xD2): (Operation.JAM, AddressingMode.implied),  // Undocumented
+    UInt8(0xF2): (Operation.JAM, AddressingMode.implied),  // Undocumented
     
     UInt8(0x4C): (Operation.JMP, AddressingMode.absolute),
     UInt8(0x6C): (Operation.JMP, AddressingMode.indirect),

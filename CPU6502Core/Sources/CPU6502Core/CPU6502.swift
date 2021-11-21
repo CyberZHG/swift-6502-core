@@ -3,7 +3,6 @@ let SP_RESET_VAL: UInt8 = 0xFF
 let P_RESET_VAL: UInt8 = 0b00110110
 
 enum EmulateError: Error {
-    case invalidOpCode
     case invalidAddrMode
 }
 
@@ -33,6 +32,9 @@ public class CPU6502 {
     
     /// Flags for emulation.
     var flags: Set<EmulateFlag> = []
+    
+    /// Stops all functions except RESET
+    var halt = false
     
     /// Negative flag. The flag will be set after any arithmetic operations.
     var N: Bool {
@@ -103,6 +105,7 @@ public class CPU6502 {
         A = 0
         X = 0
         Y = 0
+        halt = false
     }
     
     /**
@@ -119,12 +122,10 @@ public class CPU6502 {
                  entry: UInt16 = PC_RESET_VAL,
                  maxCycle: Int = -1) throws -> Int {
         var cycle = 0
-        while cycle < maxCycle {
+        while !halt && cycle < maxCycle {
             let code = readByte(memory, address: PC, cycle: &cycle)
             PC += 1
-            guard let (op, addrMode) = CODE_TO_OPERATION[code] else {
-                throw EmulateError.invalidOpCode
-            }
+            let (op, addrMode) = CODE_TO_OPERATION[code]!
             switch op {
             case Operation.NOP:
                 try execNOP(memory, addrMode: addrMode, cycle: &cycle)
@@ -134,6 +135,9 @@ public class CPU6502 {
                 break
             case Operation.RTI:
                 try execRTI(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.JAM:
+                try execJAM(memory, addrMode: addrMode, cycle: &cycle)
                 break
             case Operation.JMP:
                 try execJMP(memory, addrMode: addrMode, cycle: &cycle)
