@@ -16,7 +16,7 @@ enum AddressingMode {
 
 
 enum Operation {
-    case NOP
+    case NOP, BRK
     case JMP, JSR, RTS
     case LDA, LDX, LDY
     case STA, STX, STY
@@ -33,6 +33,8 @@ enum Operation {
 
 let CODE_TO_OPERATION = [
     UInt8(0xEA): (Operation.NOP, AddressingMode.implied),
+    
+    UInt8(0x00): (Operation.BRK, AddressingMode.implied),
     
     UInt8(0x4C): (Operation.JMP, AddressingMode.absolute),
     UInt8(0x6C): (Operation.JMP, AddressingMode.indirect),

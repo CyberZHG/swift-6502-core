@@ -129,6 +129,9 @@ public class CPU6502 {
             case Operation.NOP:
                 try execNOP(memory, addrMode: addrMode, cycle: &cycle)
                 break
+            case Operation.BRK:
+                try execBRK(memory, addrMode: addrMode, cycle: &cycle)
+                break
             case Operation.JMP:
                 try execJMP(memory, addrMode: addrMode, cycle: &cycle)
                 break
