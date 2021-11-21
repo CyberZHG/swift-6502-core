@@ -171,6 +171,9 @@ public class CPU6502 {
             case Operation.SAX:
                 try execSAX(memory, addrMode: addrMode, cycle: &cycle)
                 break
+            case Operation.SHA:
+                try execSHA(memory, addrMode: addrMode, cycle: &cycle)
+                break
             case Operation.TAX:
                 try execTAX(memory, addrMode: addrMode, cycle: &cycle)
                 break
