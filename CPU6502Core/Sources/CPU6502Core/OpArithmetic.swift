@@ -79,4 +79,11 @@ extension CPU6502 {
         Z = Y == M
         N = result > 0
     }
+    
+    func execANC(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
+        let address = try getAddress(memory, addrMode: addrMode, cycle: &cycle, addIndexedCost: false)
+        A &= readByte(memory, address: address, cycle: &cycle)
+        updateStatusNZFromConst(A)
+        C = N
+    }
 }
