@@ -24,7 +24,7 @@ enum Operation {
     case TXS, TSX, PHA, PLA, PHP, PLP
     case AND, ORA, EOR, BIT
     case CLC, SEC, CLD, SED, CLI, SEI, CLV
-    case ADC
+    case ADC, SBC
 }
 
 /* TODO:
@@ -34,7 +34,6 @@ enum Operation {
  DEX DEY INC INX INY
  LSR
  PHA PHP PLA PLP ROL ROR RTI
- SBC
  */
 
 
@@ -157,4 +156,13 @@ let CODE_TO_OPERATION = [
     UInt8(0x79): (Operation.ADC, AddressingMode.absoluteY),
     UInt8(0x61): (Operation.ADC, AddressingMode.indexedIndirect),
     UInt8(0x71): (Operation.ADC, AddressingMode.indirectIndexed),
+    
+    UInt8(0xE9): (Operation.SBC, AddressingMode.immediate),
+    UInt8(0xE5): (Operation.SBC, AddressingMode.zeroPage),
+    UInt8(0xF5): (Operation.SBC, AddressingMode.zeroPageX),
+    UInt8(0xED): (Operation.SBC, AddressingMode.absolute),
+    UInt8(0xFD): (Operation.SBC, AddressingMode.absoluteX),
+    UInt8(0xF9): (Operation.SBC, AddressingMode.absoluteY),
+    UInt8(0xE1): (Operation.SBC, AddressingMode.indexedIndirect),
+    UInt8(0xF1): (Operation.SBC, AddressingMode.indirectIndexed),
 ]

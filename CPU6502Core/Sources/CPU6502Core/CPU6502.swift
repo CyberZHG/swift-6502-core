@@ -222,6 +222,9 @@ public class CPU6502 {
             case Operation.ADC:
                 try execADC(memory, addrMode: addrMode, cycle: &cycle)
                 break
+            case Operation.SBC:
+                try execSBC(memory, addrMode: addrMode, cycle: &cycle)
+                break
             }
         }
         return cycle
