@@ -139,7 +139,13 @@ extension CPU6502 {
     
     func execDCP(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
         let address = try getAddress(memory, addrMode: addrMode, cycle: &cycle, addIndexedCost: true)
-        let M = readByte(memory, address: address, cycle: &cycle)
+        let M = readByte(memory, address: address, cycle: &cycle) &- 1
+        cycle += 1
+        let result = (Int(A) - Int(M) + 0x100) & 0b10000000
+        C = A >= M
+        Z = A == M
+        N = result > 0
+        writeByte(memory, address: address, value: M, cycle: &cycle)
     }
     
     func execISC(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
