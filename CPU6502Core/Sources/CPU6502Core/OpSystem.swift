@@ -1,6 +1,9 @@
 extension CPU6502 {
     func execNOP(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
         cycle += 1
+        if addrMode != .implied {
+            let _ = try getAddress(memory, addrMode: addrMode, cycle: &cycle, addIndexedCost: false)
+        }
     }
     
     func execBRK(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {

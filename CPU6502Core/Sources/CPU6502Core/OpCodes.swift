@@ -33,6 +33,33 @@ enum Operation {
 
 let CODE_TO_OPERATION = [
     UInt8(0xEA): (Operation.NOP, AddressingMode.implied),
+    UInt8(0x1A): (Operation.NOP, AddressingMode.implied),  // Undocumented
+    UInt8(0x3A): (Operation.NOP, AddressingMode.implied),  // Undocumented
+    UInt8(0x5A): (Operation.NOP, AddressingMode.implied),  // Undocumented
+    UInt8(0x7A): (Operation.NOP, AddressingMode.implied),  // Undocumented
+    UInt8(0xDA): (Operation.NOP, AddressingMode.implied),  // Undocumented
+    UInt8(0xFA): (Operation.NOP, AddressingMode.implied),  // Undocumented
+    UInt8(0x80): (Operation.NOP, AddressingMode.immediate),  // Undocumented
+    UInt8(0x82): (Operation.NOP, AddressingMode.immediate),  // Undocumented
+    UInt8(0x89): (Operation.NOP, AddressingMode.immediate),  // Undocumented
+    UInt8(0xC2): (Operation.NOP, AddressingMode.immediate),  // Undocumented
+    UInt8(0xE2): (Operation.NOP, AddressingMode.immediate),  // Undocumented
+    UInt8(0x04): (Operation.NOP, AddressingMode.zeroPage),  // Undocumented
+    UInt8(0x44): (Operation.NOP, AddressingMode.zeroPage),  // Undocumented
+    UInt8(0x64): (Operation.NOP, AddressingMode.zeroPage),  // Undocumented
+    UInt8(0x14): (Operation.NOP, AddressingMode.zeroPageX),  // Undocumented
+    UInt8(0x34): (Operation.NOP, AddressingMode.zeroPageX),  // Undocumented
+    UInt8(0x54): (Operation.NOP, AddressingMode.zeroPageX),  // Undocumented
+    UInt8(0x74): (Operation.NOP, AddressingMode.zeroPageX),  // Undocumented
+    UInt8(0xD4): (Operation.NOP, AddressingMode.zeroPageX),  // Undocumented
+    UInt8(0xF4): (Operation.NOP, AddressingMode.zeroPageX),  // Undocumented
+    UInt8(0x0C): (Operation.NOP, AddressingMode.absolute),  // Undocumented
+    UInt8(0x1C): (Operation.NOP, AddressingMode.absoluteX),  // Undocumented
+    UInt8(0x3C): (Operation.NOP, AddressingMode.absoluteX),  // Undocumented
+    UInt8(0x5C): (Operation.NOP, AddressingMode.absoluteX),  // Undocumented
+    UInt8(0x7C): (Operation.NOP, AddressingMode.absoluteX),  // Undocumented
+    UInt8(0xDC): (Operation.NOP, AddressingMode.absoluteX),  // Undocumented
+    UInt8(0xFC): (Operation.NOP, AddressingMode.absoluteX),  // Undocumented
     
     UInt8(0x00): (Operation.BRK, AddressingMode.implied),
     
