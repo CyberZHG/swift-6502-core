@@ -252,6 +252,18 @@ public class CPU6502 {
             case Operation.DEY:
                 try execDEY(memory, addrMode: addrMode, cycle: &cycle)
                 break
+            case Operation.ASL:
+                try execASL(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.LSR:
+                try execLSR(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.ROL:
+                try execROL(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.ROR:
+                try execROR(memory, addrMode: addrMode, cycle: &cycle)
+                break
             }
         }
         return cycle
