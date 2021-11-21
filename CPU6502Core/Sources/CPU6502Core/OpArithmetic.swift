@@ -113,4 +113,12 @@ extension CPU6502 {
             updateStatusNZFromConst(A)
         }
     }
+    
+    func execASR(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
+        let address = try getAddress(memory, addrMode: addrMode, cycle: &cycle, addIndexedCost: false)
+        let M = A & readByte(memory, address: address, cycle: &cycle)
+        C = (M & 0x01) > 0
+        A = M >> 1
+        updateStatusNZFromConst(A)
+    }
 }
