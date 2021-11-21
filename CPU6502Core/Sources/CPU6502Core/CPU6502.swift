@@ -156,6 +156,9 @@ public class CPU6502 {
             case Operation.LAS:
                 try execLAS(memory, addrMode: addrMode, cycle: &cycle)
                 break
+            case Operation.LAX:
+                try execLAX(memory, addrMode: addrMode, cycle: &cycle)
+                break
             case Operation.STA:
                 try execSTA(memory, addrMode: addrMode, cycle: &cycle)
                 break

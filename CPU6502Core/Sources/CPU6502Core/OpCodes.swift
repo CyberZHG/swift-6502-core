@@ -19,7 +19,7 @@ enum Operation {
     case NOP, BRK, RTI
     case JMP, JSR, RTS
     case LDA, LDX, LDY
-    case LAS  // Undocumented
+    case LAS, LAX  // Undocumented
     case STA, STX, STY
     case TAX, TAY, TXA, TYA
     case TXS, TSX, PHA, PLA, PHP, PLP
@@ -95,6 +95,14 @@ let CODE_TO_OPERATION = [
     UInt8(0xBC): (Operation.LDY, AddressingMode.absoluteX),
     
     UInt8(0xBB): (Operation.LAS, AddressingMode.absoluteY),  // Undocumented
+    
+    UInt8(0xAB): (Operation.LAX, AddressingMode.immediate),  // Undocumented
+    UInt8(0xA7): (Operation.LAX, AddressingMode.zeroPage),  // Undocumented
+    UInt8(0xB7): (Operation.LAX, AddressingMode.zeroPageY),  // Undocumented
+    UInt8(0xAF): (Operation.LAX, AddressingMode.absolute),  // Undocumented
+    UInt8(0xBF): (Operation.LAX, AddressingMode.absoluteY),  // Undocumented
+    UInt8(0xA3): (Operation.LAX, AddressingMode.indexedIndirect),  // Undocumented
+    UInt8(0xB3): (Operation.LAX, AddressingMode.indirectIndexed),  // Undocumented
     
     UInt8(0x85): (Operation.STA, AddressingMode.zeroPage),
     UInt8(0x95): (Operation.STA, AddressingMode.zeroPageX),

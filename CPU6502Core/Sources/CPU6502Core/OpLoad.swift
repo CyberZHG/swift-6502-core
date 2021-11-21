@@ -25,4 +25,11 @@ extension CPU6502 {
         SP = A
         updateStatusNZFromConst(A)
     }
+    
+    func execLAX(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
+        let address = try getAddress(memory, addrMode: addrMode, cycle: &cycle, addIndexedCost: false)
+        A = readByte(memory, address: address, cycle: &cycle)
+        X = A
+        updateStatusNZFromConst(A)
+    }
 }
