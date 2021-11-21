@@ -20,9 +20,16 @@ extension CPU6502 {
     }
     
     func execSHA(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
-        var dummyCycle = 0
-        let V = readByte(memory, address: PC, cycle: &dummyCycle) &+ 1
         let address = try getAddress(memory, addrMode: addrMode, cycle: &cycle, addIndexedCost: true)
+        var dummyCycle = 0
+        let V = readByte(memory, address: PC - 1, cycle: &dummyCycle) &+ 1
         writeByte(memory, address: address, value: A & X & V, cycle: &cycle)
+    }
+    
+    func execSHX(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
+        let address = try getAddress(memory, addrMode: addrMode, cycle: &cycle, addIndexedCost: true)
+        var dummyCycle = 0
+        let H = readByte(memory, address: PC - 1, cycle: &dummyCycle) &+ 1
+        writeByte(memory, address: address, value: X & H, cycle: &cycle)
     }
 }

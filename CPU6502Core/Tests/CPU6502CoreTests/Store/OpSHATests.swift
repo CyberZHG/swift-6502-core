@@ -13,8 +13,6 @@ final class OpSHATests: XCTestCase {
     
     func testSHAAbsoluteY() throws {
         self.memory.setBytes(start: 0x0000, bytes: [0x9F, 0xCD, 0xAB])
-        self.memory.setBytes(start: 0x00CE, bytes: [0xEC])
-        self.memory.setBytes(start: 0xABCD, bytes: [0xFE])
         self.cpu.PC = 0x0000
         self.cpu.A = 0xAB
         self.cpu.X = 0xCD
