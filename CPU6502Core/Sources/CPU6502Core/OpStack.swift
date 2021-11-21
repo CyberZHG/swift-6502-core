@@ -5,7 +5,7 @@ extension CPU6502 {
     
     func execTSX(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
         X = popByte(memory, cycle: &cycle)
-        updateStatusFromConst(X)
+        updateStatusNZFromConst(X)
     }
     
     func execPHA(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
@@ -16,7 +16,7 @@ extension CPU6502 {
     func execPLA(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
         A = popByte(memory, cycle: &cycle)
         cycle += 2
-        updateStatusFromConst(A)
+        updateStatusNZFromConst(A)
     }
     
     func execPHP(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {

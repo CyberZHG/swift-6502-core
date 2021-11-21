@@ -219,6 +219,9 @@ public class CPU6502 {
             case Operation.CLV:
                 try execCLV(memory, addrMode: addrMode, cycle: &cycle)
                 break
+            case Operation.ADC:
+                try execADC(memory, addrMode: addrMode, cycle: &cycle)
+                break
             }
         }
         return cycle
@@ -396,7 +399,7 @@ public class CPU6502 {
     }
     
     /// Update status based on A. A only affects zero and negative flags.
-    internal func updateStatusFromConst(_ val: UInt8) {
+    internal func updateStatusNZFromConst(_ val: UInt8) {
         self.Z = val == 0
         self.N = (val & 0b10000000) > 0
     }
