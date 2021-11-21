@@ -173,7 +173,31 @@ extension CPU6502 {
     
     func execRRA(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
         let address = try getAddress(memory, addrMode: addrMode, cycle: &cycle, addIndexedCost: true)
-        let M = readByte(memory, address: address, cycle: &cycle)
+        var M = readByte(memory, address: address, cycle: &cycle)
+        cycle += 2
+        let rot = (M >> 1) + (C ? 0b10000000 : 0)
+        C = (M & 0x01) > 0
+        M = rot
+        let signSame = isSignSame(A, M)
+        var result = -1
+        if D {
+            let AL = A & 0x0F, ML = M & 0x0F
+            var L = Int(AL) + Int(ML) + (C ? 1 : 0)
+            if L >= 0x0A {
+                L = ((L + 0x06) & 0x0F) + 0x10
+            }
+            let AH = A & 0xF0, MH = M & 0xF0
+            result = Int(AH) + Int(MH) + L
+            if result >= 0xA0 {
+                result += 0x60
+            }
+        } else {
+            result = Int(A) + Int(M) + (C ? 1 : 0)
+        }
+        C = result >= 0x100
+        A = UInt8(result & 0xFF)
+        V = signSame && !isSignSame(A, M)
+        updateStatusNZFromConst(A)
     }
     
     func execSLO(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
