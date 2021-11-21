@@ -39,4 +39,12 @@ extension CPU6502 {
         let H = readByte(memory, address: PC - 1, cycle: &dummyCycle)
         writeByte(memory, address: address, value: Y & (H &+ 1), cycle: &cycle)
     }
+    
+    func execSHS(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
+        let address = try getAddress(memory, addrMode: addrMode, cycle: &cycle, addIndexedCost: true)
+        var dummyCycle = 0
+        let H = readByte(memory, address: PC - 1, cycle: &dummyCycle)
+        SP = A & X
+        writeByte(memory, address: address, value: SP & (H &+ 1), cycle: &cycle)
+    }
 }
