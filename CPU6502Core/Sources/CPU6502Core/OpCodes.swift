@@ -183,6 +183,7 @@ let CODE_TO_OPERATION = [
     UInt8(0x71): (Operation.ADC, AddressingMode.indirectIndexed),
     
     UInt8(0xE9): (Operation.SBC, AddressingMode.immediate),
+    UInt8(0xEB): (Operation.SBC, AddressingMode.immediate),  // Undocumented
     UInt8(0xE5): (Operation.SBC, AddressingMode.zeroPage),
     UInt8(0xF5): (Operation.SBC, AddressingMode.zeroPageX),
     UInt8(0xED): (Operation.SBC, AddressingMode.absolute),

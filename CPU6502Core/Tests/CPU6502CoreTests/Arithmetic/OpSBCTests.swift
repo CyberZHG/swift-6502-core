@@ -38,6 +38,33 @@ final class OpSBCTests: XCTestCase {
         XCTAssertEqual(self.cpu.P, 0b10110100)
     }
     
+    func testSBCImmediateUndocumented() throws {
+        self.memory.setBytes(start: 0x0000, bytes: [0xEB, 0x00])
+        self.cpu.PC = 0x0000
+        self.cpu.A = 0x42
+        var actualCycle = try self.cpu.execute(memory, maxCycle: 2)
+        XCTAssertEqual(actualCycle, 2)
+        XCTAssertEqual(self.cpu.PC, 0x0002)
+        XCTAssertEqual(self.cpu.A, 0x41)
+        XCTAssertEqual(self.cpu.P, 0b00110101)
+        
+        self.memory.setBytes(start: 0x0000, bytes: [0xEB, 0x69])
+        self.cpu.PC = 0x0000
+        actualCycle = try self.cpu.execute(memory, maxCycle: 2)
+        XCTAssertEqual(actualCycle, 2)
+        XCTAssertEqual(self.cpu.PC, 0x0002)
+        XCTAssertEqual(self.cpu.A, 0xD8)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
+        
+        self.memory.setBytes(start: 0x0000, bytes: [0xEB, 0xFF])
+        self.cpu.PC = 0x0000
+        actualCycle = try self.cpu.execute(memory, maxCycle: 2)
+        XCTAssertEqual(actualCycle, 2)
+        XCTAssertEqual(self.cpu.PC, 0x0002)
+        XCTAssertEqual(self.cpu.A, 0xD8)
+        XCTAssertEqual(self.cpu.P, 0b10110100)
+    }
+    
     func testSBCImmediateBCD() throws {
         self.memory.setBytes(start: 0x0000, bytes: [0xF8, 0xE9, 0x21])
         self.cpu.PC = 0x0000
