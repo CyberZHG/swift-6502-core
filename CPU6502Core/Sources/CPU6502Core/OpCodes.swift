@@ -29,7 +29,8 @@ enum Operation {
     case ADC, SBC, CMP, CPX, CPY
     case INC, DEC, INX, DEX, INY, DEY
     case ASL, LSR, ROL, ROR
-    case ANC, ARR, ASR, SBX  // Undocumented
+    case ANC, ARR, ASR, SBX, XAA  // Undocumented
+    case DCP, ISC, RLA, RRA, SLO, SRE  // Undocumented
     case BCC, BCS, BEQ, BNE, BMI, BPL, BVC, BVS
 }
 
@@ -286,6 +287,56 @@ let CODE_TO_OPERATION = [
     UInt8(0x4B): (Operation.ASR, AddressingMode.immediate),  // Undocumented
     
     UInt8(0xCB): (Operation.SBX, AddressingMode.immediate),  // Undocumented
+    
+    UInt8(0x8B): (Operation.XAA, AddressingMode.immediate),  // Undocumented
+    
+    UInt8(0xC7): (Operation.DCP, AddressingMode.zeroPage),  // Undocumented
+    UInt8(0xD7): (Operation.DCP, AddressingMode.zeroPageX),  // Undocumented
+    UInt8(0xCF): (Operation.DCP, AddressingMode.absolute),  // Undocumented
+    UInt8(0xDF): (Operation.DCP, AddressingMode.absoluteX),  // Undocumented
+    UInt8(0xDB): (Operation.DCP, AddressingMode.absoluteY),  // Undocumented
+    UInt8(0xC3): (Operation.DCP, AddressingMode.indexedIndirect),  // Undocumented
+    UInt8(0xD3): (Operation.DCP, AddressingMode.indirectIndexed),  // Undocumented
+    
+    UInt8(0xE7): (Operation.ISC, AddressingMode.zeroPage),  // Undocumented
+    UInt8(0xF7): (Operation.ISC, AddressingMode.zeroPageX),  // Undocumented
+    UInt8(0xEF): (Operation.ISC, AddressingMode.absolute),  // Undocumented
+    UInt8(0xFF): (Operation.ISC, AddressingMode.absoluteX),  // Undocumented
+    UInt8(0xFB): (Operation.ISC, AddressingMode.absoluteY),  // Undocumented
+    UInt8(0xE3): (Operation.ISC, AddressingMode.indexedIndirect),  // Undocumented
+    UInt8(0xF3): (Operation.ISC, AddressingMode.indirectIndexed),  // Undocumented
+    
+    UInt8(0x27): (Operation.RLA, AddressingMode.zeroPage),  // Undocumented
+    UInt8(0x37): (Operation.RLA, AddressingMode.zeroPageX),  // Undocumented
+    UInt8(0x2F): (Operation.RLA, AddressingMode.absolute),  // Undocumented
+    UInt8(0x3F): (Operation.RLA, AddressingMode.absoluteX),  // Undocumented
+    UInt8(0x3B): (Operation.RLA, AddressingMode.absoluteY),  // Undocumented
+    UInt8(0x23): (Operation.RLA, AddressingMode.indexedIndirect),  // Undocumented
+    UInt8(0x33): (Operation.RLA, AddressingMode.indirectIndexed),  // Undocumented
+    
+    UInt8(0x67): (Operation.RRA, AddressingMode.zeroPage),  // Undocumented
+    UInt8(0x77): (Operation.RRA, AddressingMode.zeroPageX),  // Undocumented
+    UInt8(0x6F): (Operation.RRA, AddressingMode.absolute),  // Undocumented
+    UInt8(0x7F): (Operation.RRA, AddressingMode.absoluteX),  // Undocumented
+    UInt8(0x7B): (Operation.RRA, AddressingMode.absoluteY),  // Undocumented
+    UInt8(0x63): (Operation.RRA, AddressingMode.indexedIndirect),  // Undocumented
+    UInt8(0x73): (Operation.RRA, AddressingMode.indirectIndexed),  // Undocumented
+    
+    UInt8(0x07): (Operation.SLO, AddressingMode.zeroPage),  // Undocumented
+    UInt8(0x17): (Operation.SLO, AddressingMode.zeroPageX),  // Undocumented
+    UInt8(0x0F): (Operation.SLO, AddressingMode.absolute),  // Undocumented
+    UInt8(0x1F): (Operation.SLO, AddressingMode.absoluteX),  // Undocumented
+    UInt8(0x1B): (Operation.SLO, AddressingMode.absoluteY),  // Undocumented
+    UInt8(0x03): (Operation.SLO, AddressingMode.indexedIndirect),  // Undocumented
+    UInt8(0x13): (Operation.SLO, AddressingMode.indirectIndexed),  // Undocumented
+    
+    UInt8(0x47): (Operation.SRE, AddressingMode.zeroPage),  // Undocumented
+    UInt8(0x57): (Operation.SRE, AddressingMode.zeroPageX),  // Undocumented
+    UInt8(0x4F): (Operation.SRE, AddressingMode.absolute),  // Undocumented
+    UInt8(0x5F): (Operation.SRE, AddressingMode.absoluteX),  // Undocumented
+    UInt8(0x5B): (Operation.SRE, AddressingMode.absoluteY),  // Undocumented
+    UInt8(0x43): (Operation.SRE, AddressingMode.indexedIndirect),  // Undocumented
+    UInt8(0x53): (Operation.SRE, AddressingMode.indirectIndexed),  // Undocumented
     
     UInt8(0x90): (Operation.BCC, AddressingMode.relative),
     

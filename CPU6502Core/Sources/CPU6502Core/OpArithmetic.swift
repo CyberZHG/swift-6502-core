@@ -129,4 +129,41 @@ extension CPU6502 {
         X = (A & X) &- M
         updateStatusNZFromConst(X)
     }
+    
+    func execXAA(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
+        let address = try getAddress(memory, addrMode: addrMode, cycle: &cycle, addIndexedCost: false)
+        let M = readByte(memory, address: address, cycle: &cycle)
+        A = (A | 0xFE) & X & M  // 0xFE is the most common magic number
+        updateStatusNZFromConst(A)
+    }
+    
+    func execDCP(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
+        let address = try getAddress(memory, addrMode: addrMode, cycle: &cycle, addIndexedCost: true)
+        let M = readByte(memory, address: address, cycle: &cycle)
+    }
+    
+    func execISC(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
+        let address = try getAddress(memory, addrMode: addrMode, cycle: &cycle, addIndexedCost: true)
+        let M = readByte(memory, address: address, cycle: &cycle)
+    }
+    
+    func execRLA(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
+        let address = try getAddress(memory, addrMode: addrMode, cycle: &cycle, addIndexedCost: true)
+        let M = readByte(memory, address: address, cycle: &cycle)
+    }
+    
+    func execRRA(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
+        let address = try getAddress(memory, addrMode: addrMode, cycle: &cycle, addIndexedCost: true)
+        let M = readByte(memory, address: address, cycle: &cycle)
+    }
+    
+    func execSLO(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
+        let address = try getAddress(memory, addrMode: addrMode, cycle: &cycle, addIndexedCost: true)
+        let M = readByte(memory, address: address, cycle: &cycle)
+    }
+    
+    func execSRE(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
+        let address = try getAddress(memory, addrMode: addrMode, cycle: &cycle, addIndexedCost: true)
+        let M = readByte(memory, address: address, cycle: &cycle)
+    }
 }

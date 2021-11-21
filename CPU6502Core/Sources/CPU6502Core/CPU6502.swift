@@ -303,6 +303,27 @@ public class CPU6502 {
             case Operation.SBX:
                 try execSBX(memory, addrMode: addrMode, cycle: &cycle)
                 break
+            case Operation.XAA:
+                try execXAA(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.DCP:
+                try execDCP(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.ISC:
+                try execISC(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.RLA:
+                try execRLA(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.RRA:
+                try execRRA(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.SLO:
+                try execSLO(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.SRE:
+                try execSRE(memory, addrMode: addrMode, cycle: &cycle)
+                break
             case Operation.BCC:
                 try execBCC(memory, addrMode: addrMode, cycle: &cycle)
                 break
