@@ -234,6 +234,24 @@ public class CPU6502 {
             case Operation.CPY:
                 try execCPY(memory, addrMode: addrMode, cycle: &cycle)
                 break
+            case Operation.INC:
+                try execINC(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.DEC:
+                try execDEC(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.INX:
+                try execINX(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.DEX:
+                try execDEX(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.INY:
+                try execINY(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.DEY:
+                try execDEY(memory, addrMode: addrMode, cycle: &cycle)
+                break
             }
         }
         return cycle

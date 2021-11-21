@@ -25,15 +25,14 @@ enum Operation {
     case AND, ORA, EOR, BIT
     case CLC, SEC, CLD, SED, CLI, SEI, CLV
     case ADC, SBC, CMP, CPX, CPY
+    case INC, DEC, INX, DEX, INY, DEY
 }
 
 /* TODO:
  ASL BCC BCS BEQ
  BMI BNE BPL BRK BVC BVS
- DEC
- DEX DEY INC INX INY
  LSR
- PHA PHP PLA PLP ROL ROR RTI
+ ROL ROR RTI
  */
 
 
@@ -182,4 +181,22 @@ let CODE_TO_OPERATION = [
     UInt8(0xC0): (Operation.CPY, AddressingMode.immediate),
     UInt8(0xC4): (Operation.CPY, AddressingMode.zeroPage),
     UInt8(0xCC): (Operation.CPY, AddressingMode.absolute),
+    
+    UInt8(0xE6): (Operation.INC, AddressingMode.zeroPage),
+    UInt8(0xF6): (Operation.INC, AddressingMode.zeroPageX),
+    UInt8(0xEE): (Operation.INC, AddressingMode.absolute),
+    UInt8(0xFE): (Operation.INC, AddressingMode.absoluteX),
+    
+    UInt8(0xC6): (Operation.DEC, AddressingMode.zeroPage),
+    UInt8(0xD6): (Operation.DEC, AddressingMode.zeroPageX),
+    UInt8(0xCE): (Operation.DEC, AddressingMode.absolute),
+    UInt8(0xDE): (Operation.DEC, AddressingMode.absoluteX),
+    
+    UInt8(0xE8): (Operation.INX, AddressingMode.implied),
+    
+    UInt8(0xCA): (Operation.DEX, AddressingMode.implied),
+    
+    UInt8(0xC8): (Operation.INY, AddressingMode.implied),
+    
+    UInt8(0x88): (Operation.DEY, AddressingMode.implied),
 ]
