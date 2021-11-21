@@ -121,4 +121,12 @@ extension CPU6502 {
         A = M >> 1
         updateStatusNZFromConst(A)
     }
+    
+    func execSBX(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
+        let address = try getAddress(memory, addrMode: addrMode, cycle: &cycle, addIndexedCost: false)
+        let M = readByte(memory, address: address, cycle: &cycle)
+        C = (A & X) >= M
+        X = (A & X) &- M
+        updateStatusNZFromConst(X)
+    }
 }

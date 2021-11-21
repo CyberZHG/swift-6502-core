@@ -300,6 +300,9 @@ public class CPU6502 {
             case Operation.ASR:
                 try execASR(memory, addrMode: addrMode, cycle: &cycle)
                 break
+            case Operation.SBX:
+                try execSBX(memory, addrMode: addrMode, cycle: &cycle)
+                break
             case Operation.BCC:
                 try execBCC(memory, addrMode: addrMode, cycle: &cycle)
                 break
