@@ -213,6 +213,12 @@ extension CPU6502 {
     
     func execSRE(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
         let address = try getAddress(memory, addrMode: addrMode, cycle: &cycle, addIndexedCost: true)
-        let M = readByte(memory, address: address, cycle: &cycle)
+        var M = readByte(memory, address: address, cycle: &cycle)
+        cycle += 1
+        C = (M & 0x01) > 0
+        M = M >> 1
+        A = A ^ M
+        updateStatusNZFromConst(A)
+        writeByte(memory, address: address, value: M, cycle: &cycle)
     }
 }
