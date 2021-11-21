@@ -150,7 +150,15 @@ extension CPU6502 {
     
     func execISC(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
         let address = try getAddress(memory, addrMode: addrMode, cycle: &cycle, addIndexedCost: true)
-        let M = readByte(memory, address: address, cycle: &cycle)
+        let M = readByte(memory, address: address, cycle: &cycle) &+ 1
+        cycle += 1
+        let signSame = isSignSame(A, M)
+        let result = Int(A) - Int(M)
+        C = result >= 0
+        A = UInt8((result + 0x100) & 0xFF)
+        V = !signSame && isSignSame(A, M)
+        updateStatusNZFromConst(A)
+        writeByte(memory, address: address, value: M, cycle: &cycle)
     }
     
     func execRLA(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
