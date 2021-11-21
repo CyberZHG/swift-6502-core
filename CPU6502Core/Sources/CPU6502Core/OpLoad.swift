@@ -16,4 +16,13 @@ extension CPU6502 {
         Y = readByte(memory, address: address, cycle: &cycle)
         updateStatusNZFromConst(Y)
     }
+    
+    func execLAS(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
+        let address = try getAddress(memory, addrMode: addrMode, cycle: &cycle, addIndexedCost: false)
+        let M = readByte(memory, address: address, cycle: &cycle)
+        A = M & SP
+        X = A
+        SP = A
+        updateStatusNZFromConst(A)
+    }
 }
