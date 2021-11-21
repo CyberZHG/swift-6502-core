@@ -164,6 +164,11 @@ extension CPU6502 {
     func execRLA(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
         let address = try getAddress(memory, addrMode: addrMode, cycle: &cycle, addIndexedCost: true)
         let M = readByte(memory, address: address, cycle: &cycle)
+        cycle += 2
+        let rot = (M &<< 1) + (C ? 1 : 0)
+        C = (M & 0b10000000) > 0
+        A = A & rot
+        updateStatusNZFromConst(A)
     }
     
     func execRRA(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
