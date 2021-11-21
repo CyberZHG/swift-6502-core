@@ -225,6 +225,15 @@ public class CPU6502 {
             case Operation.SBC:
                 try execSBC(memory, addrMode: addrMode, cycle: &cycle)
                 break
+            case Operation.CMP:
+                try execCMP(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.CPX:
+                try execCPX(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.CPY:
+                try execCPY(memory, addrMode: addrMode, cycle: &cycle)
+                break
             }
         }
         return cycle
