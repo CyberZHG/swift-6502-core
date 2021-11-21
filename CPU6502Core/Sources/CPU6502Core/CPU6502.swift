@@ -264,6 +264,30 @@ public class CPU6502 {
             case Operation.ROR:
                 try execROR(memory, addrMode: addrMode, cycle: &cycle)
                 break
+            case Operation.BCC:
+                try execBCC(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.BCS:
+                try execBCS(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.BEQ:
+                try execBEQ(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.BNE:
+                try execBNE(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.BMI:
+                try execBMI(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.BPL:
+                try execBPL(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.BVC:
+                try execBVC(memory, addrMode: addrMode, cycle: &cycle)
+                break
+            case Operation.BVS:
+                try execBVS(memory, addrMode: addrMode, cycle: &cycle)
+                break
             }
         }
         return cycle
@@ -320,6 +344,10 @@ public class CPU6502 {
         return addr
     }
     
+    internal func isPageCrossed(_ a: UInt16, _ b: UInt16) -> Bool {
+        return (a >> 8) != (b >> 8)
+    }
+    
     /// Get the address from immediate addressing. The address is the byte that PC points to.
     internal func getAddrImmedidate(_ memory: Memory, cycle: inout Int) -> UInt16 {
         let addr = PC
@@ -362,7 +390,7 @@ public class CPU6502 {
         let absAddr = readWord(memory, address: PC, cycle: &cycle)
         PC += 2
         let indexedAddr = absAddr + UInt16(X)
-        if addIndexedCost || (absAddr >> 8) != (indexedAddr >> 8) {
+        if addIndexedCost || isPageCrossed(absAddr, indexedAddr) {
             cycle += 1
         }
         return indexedAddr
@@ -373,7 +401,7 @@ public class CPU6502 {
         let absAddr = readWord(memory, address: PC, cycle: &cycle)
         PC += 2
         let indexedAddr = absAddr + UInt16(Y)
-        if addIndexedCost || (absAddr >> 8) != (indexedAddr >> 8) {
+        if addIndexedCost || isPageCrossed(absAddr, indexedAddr) {
             cycle += 1
         }
         return indexedAddr
@@ -405,10 +433,20 @@ public class CPU6502 {
         PC += 1
         let indirectAddr = readWord(memory, address: UInt16(zeroPageAddr), cycle: &cycle)
         let indexedAddr = indirectAddr + UInt16(Y)
-        if addIndexedCost || (indirectAddr >> 8) != (indexedAddr >> 8) {
+        if addIndexedCost || isPageCrossed(indirectAddr, indexedAddr) {
             cycle += 1
         }
         return indexedAddr
+    }
+    
+    /// Get the relative address based on P.
+    internal func getAddrRelative(_ memory: Memory, cycle: inout Int) -> UInt16 {
+        var relative = Int(readByte(memory, address: PC, cycle: &cycle))
+        PC += 1
+        if relative >= 0x80 {
+            relative -= 0x100
+        }
+        return UInt16((Int(PC) + Int(relative) + 0x10000) & 0xFFFF)
     }
     
     /// Get the address based on the addressing mode.
@@ -435,6 +473,8 @@ public class CPU6502 {
             return getAddrIndexedIndirect(memory, cycle: &cycle)
         case .indirectIndexed:
             return getAddrIndirectIndexed(memory, cycle: &cycle, addIndexedCost: addIndexedCost)
+        case .relative:
+            return getAddrRelative(memory, cycle: &cycle)
         default:
             throw EmulateError.invalidAddrMode
         }

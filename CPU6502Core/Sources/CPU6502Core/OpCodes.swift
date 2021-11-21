@@ -27,13 +27,8 @@ enum Operation {
     case ADC, SBC, CMP, CPX, CPY
     case INC, DEC, INX, DEX, INY, DEY
     case ASL, LSR, ROL, ROR
+    case BCC, BCS, BEQ, BNE, BMI, BPL, BVC, BVS
 }
-
-/* TODO:
- BCC BCS BEQ
- BMI BNE BPL BRK BVC BVS
- RTI
- */
 
 
 let CODE_TO_OPERATION = [
@@ -223,4 +218,20 @@ let CODE_TO_OPERATION = [
     UInt8(0x76): (Operation.ROR, AddressingMode.zeroPageX),
     UInt8(0x6E): (Operation.ROR, AddressingMode.absolute),
     UInt8(0x7E): (Operation.ROR, AddressingMode.absoluteX),
+    
+    UInt8(0x90): (Operation.BCC, AddressingMode.relative),
+    
+    UInt8(0xB0): (Operation.BCS, AddressingMode.relative),
+    
+    UInt8(0xF0): (Operation.BEQ, AddressingMode.relative),
+    
+    UInt8(0xD0): (Operation.BNE, AddressingMode.relative),
+    
+    UInt8(0x30): (Operation.BMI, AddressingMode.relative),
+    
+    UInt8(0x10): (Operation.BPL, AddressingMode.relative),
+    
+    UInt8(0x50): (Operation.BVC, AddressingMode.relative),
+    
+    UInt8(0x70): (Operation.BVS, AddressingMode.relative),
 ]

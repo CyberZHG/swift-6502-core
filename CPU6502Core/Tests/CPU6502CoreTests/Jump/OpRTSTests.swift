@@ -1,7 +1,7 @@
 import XCTest
 @testable import CPU6502Core
 
-final class OpJSRRTSTests: XCTestCase {
+final class OpRTSTests: XCTestCase {
     
     var cpu = CPU6502()
     var memory = Memory()
