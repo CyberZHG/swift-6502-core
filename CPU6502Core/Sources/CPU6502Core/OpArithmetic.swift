@@ -86,4 +86,31 @@ extension CPU6502 {
         updateStatusNZFromConst(A)
         C = N
     }
+    
+    func execARR(_ memory: Memory, addrMode: AddressingMode, cycle: inout Int) throws {
+        let address = try getAddress(memory, addrMode: addrMode, cycle: &cycle, addIndexedCost: false)
+        let M = readByte(memory, address: address, cycle: &cycle)
+        let and = M & A
+        let result = and >> 1 + (C ? 0b10000000 : 0)
+        if D {
+            N = C
+            Z = result == 0
+            V = (result & 0b01000000) != (A & 0b01000000)
+            let ah = and >> 4
+            let al = and & 0x0F
+            A = result
+            if al + (al & 1) > 5 {
+                A = (A & 0xF0) | ((A &+ 6) & 0x0F)
+            }
+            C = ah + (ah & 1) > 5
+            if C {
+                A = UInt8((Int(A) + 0x60) & 0xFF)
+            }
+        } else {
+            C = (result & 0b01000000) > 0
+            V = ((result & 0b01000000) > 0) != ((result & 0b00100000) > 0)
+            A = result
+            updateStatusNZFromConst(A)
+        }
+    }
 }
