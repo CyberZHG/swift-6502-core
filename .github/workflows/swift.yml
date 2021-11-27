@@ -19,4 +19,4 @@ jobs:
     - name: Build
       run: (cd CPU6502Core && swift build)
     - name: Run tests
-      run: (cd CPU6502Core && swift test)
+      run: (cd CPU6502Core && swift test --enable-code-coverage)

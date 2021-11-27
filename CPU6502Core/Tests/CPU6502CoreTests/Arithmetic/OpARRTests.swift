@@ -4,7 +4,7 @@ import XCTest
 final class OpARRTests: XCTestCase {
     
     var cpu = CPU6502()
-    var memory = Memory()
+    var memory = PlainMemory()
     
     override func setUp() {
         self.cpu.reset()
