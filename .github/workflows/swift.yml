@@ -17,6 +17,6 @@ jobs:
       with:
         swift-version: "5.3.3"
     - name: Build
-      run: (cd CPU6502Core && swift build)
+      run: swift build
     - name: Run tests
-      run: (cd CPU6502Core && swift test --enable-code-coverage)
+      run: swift test --enable-code-coverage
